@@ -1,0 +1,63 @@
+@use "mixins" as *;
+
+#staticTextContainer {
+  position: absolute;
+  top: 20.5%;
+  left: 53%;
+  transform: translate(-50%, -10%);
+  color: black;
+}
+
+.static-layout-row {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  justify-content: end;
+  align-items: baseline;
+}
+
+.static-layout-column {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+#mainStaticText {
+  font-size: 3.5rem;
+  font-weight: 500;
+
+  @include respond(md) {
+    font-size: 1.4rem;
+  }
+}
+
+#subStaticText {
+  font-size: 1.5rem;
+  font-weight: normal;
+
+  @include respond(md) {
+    font-size: 0.8rem;
+  }
+}
+
+#columnLabel {
+  font-size: 2rem;
+  font-weight: 400;
+  @include respond(md) {
+    font-size: 1rem;
+  }
+  
+}
+
+#columnValue {
+  font-size: 3rem;
+  font-weight: 600;
+   @include respond(md) {
+    font-size: 1.4rem;
+  }
+}
+
+.hidden {
+  display: none !important;
+}

@@ -1,0 +1,165 @@
+@use "mixins" as *;
+#header-container {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 20px;
+    /* overflow: hidden; */
+}
+
+#header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    /* background-color: red; */
+    /* align-items: center; */
+    word-wrap: break-word;
+}
+
+#header-buttons {
+    /* background-color: black; */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-direction: column;
+
+    @include respond-portrait(md) {
+        display: none;
+    }
+
+    @include respond(sm) {
+        gap: 5px;
+    }
+    /* background-color: red; */
+}
+
+.header-btn {
+    // padding: 14px 5px;
+    border-right: 2px solid #464646;
+    // border-right: none;
+    width: 60px;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    // align-items: center;
+    cursor: pointer;
+    &:last-child {
+        border-right: none; // Apply right border only to the last button
+    }
+    @include respond(md) {
+        width: 40px;
+        // padding: 8px 4px;
+    }
+}
+
+.header-btn img {
+    @include respond(md) {
+        width: 45px;
+    }
+    @include respond(sm) {
+        width: 30px;
+    }
+}
+.header-btn-long {
+    // background-color: rgba(0 0 0 / 0.6);
+    padding-inline: 30px;
+    // height: 50px;
+    // min-width: 150px;
+    border-right: 2px solid #464646;
+    // border-right: none; // Prevents double border stacking
+    display: flex;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    font-size: 24px;
+    // font-size: 18px;
+    // font-weight: 100;
+    @include respond(md) {
+        font-size: 16px;
+        padding-inline: 10px;
+    }
+}
+
+#autoManualBtn-container {
+    min-width: 150px;
+    @include respond(md) {
+        min-width: 125px;
+    }
+}
+
+// .header-btn {
+//     background-color: rgba(0 0 0 / 0.6);
+//     // padding: 10px 5px;
+//     border: 2px solid #464646;
+//     border-right: none; // Prevents double border stacking
+//     width: 60px;
+//     aspect-ratio: 1;
+//     // height: 0px;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     cursor: pointer;
+
+//     &:last-child {
+//         border-right: 2px solid #464646; // Apply right border only to the last button
+//     }
+
+//     @include respond(md) {
+//         height: 20px;
+//     }
+//     @include respond(sm) {
+//         height: 18px;
+//     }
+// }
+
+#auto-mode-switch-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+#auto-mode-switch-btn img {
+    width: 19px;
+    object-fit: fill;
+
+    @include respond(sm) {
+        width: 16px;
+    }
+}
+
+#header-buttons-row1 {
+    background-color: rgba(0 0 0 / 0.6);
+    border: 2px solid #464646 !important;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+
+    @include respond(md) {
+        border-radius: 8px;
+    }
+}
+
+#header-logo {
+    // margin: auto;
+    @include respond-portrait(md) {
+        margin: auto;
+    }
+}
+#header-logo img {
+    width: 471px;
+    // display: none;
+    margin: auto;
+    @include respond(md) {
+        display: block;
+        width: 200px;
+    }
+    @include respond-portrait(md) {
+        display: block;
+        width: 300px;
+    }
+    
+}
+
+

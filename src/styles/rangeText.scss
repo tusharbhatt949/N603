@@ -1,0 +1,74 @@
+@use "mixins" as *;
+
+#textContainer {
+    position: absolute;
+    top: 13%;
+    left: 50% !important;
+    color: #000;
+    text-align: center;
+    /* line-height: normal; */
+    font-family: sans-serif;
+    min-width: 211px;
+
+    @include respond(md) {
+        left: 18%;
+        top: 18%;
+    }
+}
+
+#rangeInfo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#rangeTextLabel {
+    font-size: 2rem;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    margin-bottom: -5px;
+
+    @include respond(md) {
+        font-size: 1rem;
+        margin-bottom: -8px;
+    }
+}
+
+#rangeIncrementNumber-container {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 600;
+    margin-top: 4px;
+
+    @include respond(md) {
+        gap: 6px;
+    }
+}
+
+#rangeIncrementNumber {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+
+    @include respond(md) {
+        font-size: 1.4rem;
+    }
+}
+
+#rangeKmLabel {
+    font-size: 3rem;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+
+    @include respond(md) {
+        font-size: 1.4rem;
+    }
+}

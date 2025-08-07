@@ -1,0 +1,103 @@
+$border-gradient: linear-gradient(to right, rgba(65, 105, 225, 0), #1df0ff, rgba(65, 105, 225, 0)) 1;
+@use "mixins" as *;
+
+#textContainer {
+    @include respond-portrait(md) {
+        display: none;
+    }
+
+    @include respond(md) {
+        top: 20% !important;
+        min-width: 100px !important;
+    }
+}
+
+#rangeInfo-container {
+    @include respond(md) {
+        gap: 5px !important;
+    }
+}
+
+#speedTextContainer {
+    position: absolute;
+    bottom: 40%;
+    font-size: 70px;
+    font-weight: bold;
+    color: #00ffff;
+    text-align: left;
+    right: 15%;
+    // margin-top: 20px;
+    line-height: 0.5em;
+    background-color: rgba(0, 0, 0, 0.6);
+    // background-image: linear-gradient(to top, rgb(0, 0, 0,0.6), rgba(14, 14, 14, 0.253));
+    // border-bottom: 2px solid;
+    // border-image: $border-gradient;
+    padding: 5px 10px;
+    width: 150px;
+    text-align: left;
+}
+
+#speedTextLabel {
+    color: #ffffffee;
+    font-size: 18px;
+    font-family: "Barlow";
+    font-weight: 400;
+}
+
+#speedIncrementNumber-container {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    // justify-content: flex-end;
+    align-items: baseline; /* Ensures text alignment */
+    /* background-color: red; */
+}
+
+#speedIncrementNumber {
+    font-size: 50px;
+    font-weight: medium;
+    /* min-width: 90px; */
+    text-align: right;
+}
+
+#speedKmLabel {
+    font-family: "Barlow";
+    font-weight: 400;
+
+    font-size: 24px;
+    font-weight: normal;
+}
+
+//Charging
+
+#chargingTextContainer {
+    // background-color: red;
+    position: absolute;
+    top: 15%;
+    left: 49%;
+    text-align: center;
+    font-family: "Barlow";
+    font-weight: 500;
+
+    color: #fff;
+    @include respond(md) {
+        top: 19.5%;
+        left: 48%;
+    }
+}
+
+#chargingTextLabel {
+    font-size: 3rem;
+    font-weight: 600;
+    @include respond(md) {
+        font-size: 1.4rem;
+    }
+}
+
+#chargingSubtitle {
+    font-size: 2rem;
+    font-weight: 400;
+    @include respond(md) {
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,24 @@
+#autoModeTimeline {
+    /* position: absolute; */
+    /* bottom: 10%; */
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    /* background-color: red; */
+}
+
+
+
+.progress-bar {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: #1DF0FF;
+    transition: width linear;
+}

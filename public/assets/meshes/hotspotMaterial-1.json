@@ -1,0 +1,435 @@
+{
+  "tags": null,
+  "ignoreAlpha": false,
+  "maxSimultaneousLights": 4,
+  "mode": 0,
+  "forceAlphaBlending": false,
+  "id": "node material",
+  "name": "Hotspot_Mat",
+  "checkReadyOnEveryCall": false,
+  "checkReadyOnlyOnce": false,
+  "state": "",
+  "alpha": 1,
+  "backFaceCulling": true,
+  "cullBackFaces": true,
+  "alphaMode": 2,
+  "_needDepthPrePass": false,
+  "disableDepthWrite": false,
+  "disableColorWrite": false,
+  "forceDepthWrite": false,
+  "depthFunction": 0,
+  "separateCullingPass": false,
+  "fogEnabled": true,
+  "pointSize": 1,
+  "zOffset": 0,
+  "zOffsetUnits": 0,
+  "pointsCloud": false,
+  "fillMode": 0,
+  "editorData": {
+    "locations": [
+      {
+        "blockId": 805,
+        "x": 820,
+        "y": 140,
+        "isCollapsed": false
+      },
+      {
+        "blockId": 804,
+        "x": 580,
+        "y": 80,
+        "isCollapsed": false
+      },
+      {
+        "blockId": 802,
+        "x": 300,
+        "y": 0,
+        "isCollapsed": false
+      },
+      {
+        "blockId": 800,
+        "x": 0,
+        "y": 0,
+        "isCollapsed": false
+      },
+      {
+        "blockId": 801,
+        "x": 0,
+        "y": 160,
+        "isCollapsed": false
+      },
+      {
+        "blockId": 803,
+        "x": 280,
+        "y": 220,
+        "isCollapsed": false
+      },
+      {
+        "blockId": 807,
+        "x": 300,
+        "y": 340,
+        "isCollapsed": false
+      },
+      {
+        "blockId": 859,
+        "x": 0,
+        "y": 440,
+        "isCollapsed": false
+      },
+      {
+        "blockId": 860,
+        "x": -440,
+        "y": 440,
+        "isCollapsed": false
+      }
+    ],
+    "frames": [],
+    "x": -4.216302031580849,
+    "y": 21.108527026262948,
+    "zoom": 0.6966472672594436
+  },
+  "customType": "BABYLON.NodeMaterial",
+  "outputNodes": [
+    805,
+    807
+  ],
+  "blocks": [
+    {
+      "customType": "BABYLON.VertexOutputBlock",
+      "id": 805,
+      "name": "VertexOutput",
+      "comments": "",
+      "visibleInInspector": false,
+      "visibleOnFrame": false,
+      "target": 1,
+      "inputs": [
+        {
+          "name": "vector",
+          "inputName": "vector",
+          "targetBlockId": 804,
+          "targetConnectionName": "output",
+          "isExposedOnFrame": true,
+          "exposedPortPosition": -1
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "customType": "BABYLON.TransformBlock",
+      "id": 804,
+      "name": "WorldPos * ViewProjectionTransform",
+      "comments": "",
+      "visibleInInspector": false,
+      "visibleOnFrame": false,
+      "target": 1,
+      "inputs": [
+        {
+          "name": "vector",
+          "inputName": "vector",
+          "targetBlockId": 802,
+          "targetConnectionName": "output",
+          "isExposedOnFrame": true,
+          "exposedPortPosition": -1
+        },
+        {
+          "name": "transform",
+          "inputName": "transform",
+          "targetBlockId": 803,
+          "targetConnectionName": "output",
+          "isExposedOnFrame": true,
+          "exposedPortPosition": -1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output"
+        },
+        {
+          "name": "xyz"
+        }
+      ],
+      "complementZ": 0,
+      "complementW": 1
+    },
+    {
+      "customType": "BABYLON.TransformBlock",
+      "id": 802,
+      "name": "WorldPos",
+      "comments": "",
+      "visibleInInspector": false,
+      "visibleOnFrame": false,
+      "target": 1,
+      "inputs": [
+        {
+          "name": "vector",
+          "inputName": "vector",
+          "targetBlockId": 800,
+          "targetConnectionName": "output",
+          "isExposedOnFrame": true,
+          "exposedPortPosition": -1
+        },
+        {
+          "name": "transform",
+          "inputName": "transform",
+          "targetBlockId": 801,
+          "targetConnectionName": "output",
+          "isExposedOnFrame": true,
+          "exposedPortPosition": -1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output"
+        },
+        {
+          "name": "xyz"
+        }
+      ],
+      "complementZ": 0,
+      "complementW": 1
+    },
+    {
+      "customType": "BABYLON.InputBlock",
+      "id": 800,
+      "name": "position",
+      "comments": "",
+      "visibleInInspector": false,
+      "visibleOnFrame": false,
+      "target": 1,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "output"
+        }
+      ],
+      "type": 8,
+      "mode": 1,
+      "systemValue": null,
+      "animationType": 0,
+      "min": 0,
+      "max": 0,
+      "isBoolean": false,
+      "matrixMode": 0,
+      "isConstant": false,
+      "groupInInspector": "",
+      "convertToGammaSpace": false,
+      "convertToLinearSpace": false
+    },
+    {
+      "customType": "BABYLON.InputBlock",
+      "id": 801,
+      "name": "World",
+      "comments": "",
+      "visibleInInspector": false,
+      "visibleOnFrame": false,
+      "target": 1,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "output"
+        }
+      ],
+      "type": 128,
+      "mode": 0,
+      "systemValue": 1,
+      "animationType": 0,
+      "min": 0,
+      "max": 0,
+      "isBoolean": false,
+      "matrixMode": 0,
+      "isConstant": false,
+      "groupInInspector": "",
+      "convertToGammaSpace": false,
+      "convertToLinearSpace": false
+    },
+    {
+      "customType": "BABYLON.InputBlock",
+      "id": 803,
+      "name": "ViewProjection",
+      "comments": "",
+      "visibleInInspector": false,
+      "visibleOnFrame": false,
+      "target": 1,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "output"
+        }
+      ],
+      "type": 128,
+      "mode": 0,
+      "systemValue": 4,
+      "animationType": 0,
+      "min": 0,
+      "max": 0,
+      "isBoolean": false,
+      "matrixMode": 0,
+      "isConstant": false,
+      "groupInInspector": "",
+      "convertToGammaSpace": false,
+      "convertToLinearSpace": false
+    },
+    {
+      "customType": "BABYLON.FragmentOutputBlock",
+      "id": 807,
+      "name": "FragmentOutput",
+      "comments": "",
+      "visibleInInspector": false,
+      "visibleOnFrame": false,
+      "target": 2,
+      "inputs": [
+        {
+          "name": "rgba"
+        },
+        {
+          "name": "rgb",
+          "inputName": "rgb",
+          "targetBlockId": 859,
+          "targetConnectionName": "rgb",
+          "isExposedOnFrame": true,
+          "exposedPortPosition": -1
+        },
+        {
+          "name": "a",
+          "inputName": "a",
+          "targetBlockId": 859,
+          "targetConnectionName": "a",
+          "isExposedOnFrame": true,
+          "exposedPortPosition": -1
+        },
+        {
+          "name": "glow"
+        }
+      ],
+      "outputs": [],
+      "convertToGammaSpace": false,
+      "convertToLinearSpace": false,
+      "useLogarithmicDepth": false
+    },
+    {
+      "customType": "BABYLON.TextureBlock",
+      "id": 859,
+      "name": "Texture",
+      "comments": "",
+      "visibleInInspector": false,
+      "visibleOnFrame": false,
+      "target": 3,
+      "inputs": [
+        {
+          "name": "uv",
+          "inputName": "uv",
+          "targetBlockId": 860,
+          "targetConnectionName": "output",
+          "isExposedOnFrame": true,
+          "exposedPortPosition": -1
+        },
+        {
+          "name": "source"
+        },
+        {
+          "name": "layer"
+        },
+        {
+          "name": "lod"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "rgba"
+        },
+        {
+          "name": "rgb"
+        },
+        {
+          "name": "r"
+        },
+        {
+          "name": "g"
+        },
+        {
+          "name": "b"
+        },
+        {
+          "name": "a"
+        },
+        {
+          "name": "level"
+        }
+      ],
+      "convertToGammaSpace": false,
+      "convertToLinearSpace": false,
+      "fragmentOnly": false,
+      "disableLevelMultiplication": false,
+      "texture": {
+        "tags": null,
+        "url": "",
+        "uOffset": 0,
+        "vOffset": 0,
+        "uScale": 1,
+        "vScale": 1,
+        "uAng": 0,
+        "vAng": 0,
+        "wAng": 0,
+        "uRotationCenter": 0.5,
+        "vRotationCenter": 0.5,
+        "wRotationCenter": 0.5,
+        "homogeneousRotationInUVTransform": false,
+        "isBlocking": true,
+        "name": "data:octet/stream;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6CAMAAAC/MqoPAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAApRQTFRF////AP//AAAA/////////////////////////////////////////////////////v//////Af//////9///////4v//////wf//zf//////////////jf//4P//Mf//Vf//r///////A///////vP//////sf//////R///////////////uf//////////////////P///Jv//////////////////////pv//////8///////////t///////////////////////////////qP//////////////7f//+///////////////////////////Pf//lv//////////////////+v//q///////////////////bP//////////////////////Lv//xP//0///tP//////////////////////////////9f//////6P//Hf//////S///////////////////////+P//BP//////////hP//////////////FP//////////////Cf//0P//G///////////Dv//////6///////Of//2///kP//////Bv//////J///////vv//C///////////////////if//O///df//ef//fP//RP//Nv//////////5v//////cv//////////g///////////Qv//////h///d///////////Sf//F///nv//////YP//////////////////Mv//Uv//3f//////1///////Zv//////////UP//Kf//ev//Z///NP//nP//ZP//fv//////k///gf//av//yv//1f//////yP//Xf//JP//////E///cf//of//f3wdvAAAANx0Uk5T//8A+yr5CgX9CAH+/A3zIP+U/xD/BP9V//9Izy3//////+j/U/8j/9z/mvbF/49FtD3//6vhKBQa/xb/hDr/t4hH6q3Ogv/VIb3//8h4wp6y0v//lm1aHP//f9ZfP/8TNL5PGf////9x2XuGipy5/1z//0D/GMAeTXX//+vy/1iMY/9Cu8r///+Saf+j/1f///8H/2f/r///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",
+        "hasAlpha": false,
+        "getAlphaFromRGB": false,
+        "level": 1,
+        "coordinatesIndex": 0,
+        "optimizeUVAllocation": true,
+        "coordinatesMode": 7,
+        "wrapU": 1,
+        "wrapV": 1,
+        "wrapR": 1,
+        "anisotropicFilteringLevel": 4,
+        "isCube": false,
+        "is3D": false,
+        "is2DArray": false,
+        "gammaSpace": true,
+        "invertZ": false,
+        "lodLevelInAlpha": false,
+        "lodGenerationOffset": 0,
+        "lodGenerationScale": 0,
+        "linearSpecularLOD": false,
+        "isRenderTarget": false,
+        "animations": [],
+        "invertY": false,
+        "samplingMode": 3,
+        "_useSRGBBuffer": false,
+        "internalTextureLabel": "data:octet/stream;base64,iVBORw0KGgoAAAANSUhEUgAAAPoAAAD6CAM",
+        "noMipmap": false
+      }
+    },
+    {
+      "customType": "BABYLON.InputBlock",
+      "id": 860,
+      "name": "uv",
+      "comments": "",
+      "visibleInInspector": false,
+      "visibleOnFrame": false,
+      "target": 1,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "output"
+        }
+      ],
+      "type": 4,
+      "mode": 1,
+      "systemValue": null,
+      "animationType": 0,
+      "min": 0,
+      "max": 0,
+      "isBoolean": false,
+      "matrixMode": 0,
+      "isConstant": false,
+      "groupInInspector": "",
+      "convertToGammaSpace": false,
+      "convertToLinearSpace": false
+    }
+  ],
+  "uniqueId": 799
+}

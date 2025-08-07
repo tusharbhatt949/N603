@@ -1,0 +1,30 @@
+@use "sass:map"; // Import the map module
+
+$breakpoints: (
+  xs: 680px,
+  sm: 768px,
+  md: 1024px,
+  lg: 1280px,
+  xl: 2040px,
+  2xl: 3040px
+);
+
+@mixin respond($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) { // Correct syntax for Dart Sass
+    @media (max-width: #{map.get($breakpoints, $breakpoint)}) {
+      @content;
+    }
+  } @else {
+    @error "Breakpoint '#{$breakpoint}' is not defined in $breakpoints map.";
+  }
+}
+
+@mixin respond-portrait($breakpoint) {
+  @if map.has-key($breakpoints, $breakpoint) { // Correct syntax
+    @media (max-width: #{map.get($breakpoints, $breakpoint)}) and (orientation: portrait) {
+      @content;
+    }
+  } @else {
+    @error "Breakpoint '#{$breakpoint}' is not defined in $breakpoints map.";
+  }
+}
