@@ -37,7 +37,10 @@ export const CAMERA_DEFAULT_NEARPLANE = 1;
 
 export const MESHES_TO_HIDE_ON_LOAD = ["E_Charge_1","E_Charge_2","E_Charge_3","E_Charge_4", "Tyre_Hill_Hold","Headlight_Flare",
     "Hill_Hold_Arrow_Head", "Healight_Glow","Indicator_Glow","LightBeam" ,"Regen_Brake","Backlight_Glow","Call_Cube_primitive0","Call_Cube_primitive1","Drive_Mode_Cube_primitive0","Drive_Mode_Cube_primitive1",
-    "Milestone","Stop_Sign","Top_Speed_Text","Water_Wading_Text","Hill_Assist_Text","Gradeability_Text","179_Text","KMS_Text", "Hill_Hold_Arrow"
+    "Milestone","Stop_Sign","Top_Speed_Text","Water_Wading_Text","Hill_Assist_Text","Gradeability_Text","179_Text","KMS_Text", "Hill_Hold_Arrow",
+
+
+    "Load_1","Load_2","Load_3","Max_Load_Text","Max_Load_Text_2","Headlight_Beam" ,"Headlight_Emission" ,"Plane.005_primitive1"
 ];
 
 export const MESHES_WITH_GLOW_EFFECT = ["Healight_Glow","Indicator_Glow"]

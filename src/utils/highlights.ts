@@ -169,10 +169,11 @@ export const resetTransparencyMode = (): void => {
 };
 
 export const highlightMeshUsingOverlayAndAlpha = (
-    materialsToTransparent: string[], 
-    meshToHighlight: string
+    meshToHighlight: string,
+    materialsToTransparent?: string[], 
 ) => {
     // Lower the alpha for specified materials
+    if(materialsToTransparent)
     materialsToTransparent.forEach(materialName => {
         const material = scene.getMaterialByName(materialName) as BABYLON.StandardMaterial | null;
         if (material) {

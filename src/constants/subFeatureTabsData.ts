@@ -4,8 +4,8 @@ import { showStaticText, updateStaticText } from "../uiElements/infographics/sta
 import { blinkAnimation, makeSceneDarkAnimation, prepareAndPlayAnimations, shineAnimation, slowAndStopAnimation, startSpeedLines, stopSpeedLines } from "../utils/animations";
 import { startRotateCamera360 } from "../utils/cameraRotation";
 import { addHighlights, applyOutlineToMesh, highlightMeshUsingOverlayAndAlpha, highlightMeshUsingTransparencyMode } from "../utils/highlights";
-import { makeMeshVisible, setRenderingGroupId, sleep } from "../utils/utils";
-import { GradeabilityAnimation, WaterWadingAnimation } from "./animationData";
+import { hideMeshes, makeMeshVisible, setRenderingGroupId, sleep } from "../utils/utils";
+import { futuristicTechAnimation, gloveBoxAnimation, GradeabilityAnimation, orvmAnimation, rollingWindowsAnimation, WaterWadingAnimation, wiperAnimation } from "./animationData";
 import { FeatureCategory } from "./enums";
 import { CAMERA_DEFAULT_TARGET_POSITION_X, CAMERA_DEFAULT_TARGET_POSITION_Y, CAMERA_DEFAULT_TARGET_POSITION_Z, CAMERA_DEFAULT_ALPHA_VALUE, CAMERA_DEFAULT_BETA_VALUE, CAMERA_DEFAULT_DESKTOP_RADIUS_VALUE, HIGHLIGHT_COLOR } from "./values";
 
@@ -87,11 +87,10 @@ export const subFeatureTabsData = {
             },
             resetToDefaultPositionFirst: true,
             isRoadAnim: true,
-            showMesh: ["Milestone"],
+            showMesh: ["Milestone", "Load_1", "Load_2", "Load_3"],
             highlightMesh: () => {
-                // startSpeedLines()
-                startIncrementingText()
-                // animateUScaleToZero("Env_Dome")
+                startIncrementingText();
+
             },
             animations: [
                 {
@@ -138,7 +137,7 @@ export const subFeatureTabsData = {
             camera: {
                 alpha: 0.6742, beta: 1.2796, radius: 46.0186, x: 0.000, y: 7.500, z: 0.000
             },
-
+            showMesh: ["Load_1", "Load_2", "Load_3"],
             highlightMesh: () => {
                 // startIncrementingText()
             },
@@ -148,7 +147,7 @@ export const subFeatureTabsData = {
         {
             title: "Climb Confidently", content: "Gradeability of 28.7 %. Drive on slopes with confidence.",
             camera: {
-                alpha: 1.5, beta: 1.5, radius: 44, x: 2, y: 7.5, z: 0
+                alpha: 1.5152, beta: 1.6500, radius: 40.2500, x: -1.190, y: 13.300, z: -0.040
             },
             highlightMesh: () => {
                 updateStaticText("Gradeability", "28.7%", 12, "column", true);
@@ -180,7 +179,7 @@ export const subFeatureTabsData = {
                 startRotateCamera360();
                 // startIncrementingText()
             },
-            zoomEffect:false,
+            zoomEffect: false,
             animations: [
             ]
         },
@@ -192,11 +191,10 @@ export const subFeatureTabsData = {
                 alpha: 1.5684, beta: 1.5185, radius: 26.0366, x: 4.866, y: 9.717, z: -0.470
             },
             highlightMesh: () => {
-                addHighlights("Window_L_primitive1", false);
-                // applyOutlineToMesh("Window_L_primitive1", false, 0.2)
+                addHighlights("Window_L", false);
+                applyOutlineToMesh("Window_L", false, 0.2)
             },
-            animations: [
-            ]
+            animations: rollingWindowsAnimation
         },
         {
             title: "Roof Trim Provision", content: "Segment-First Roof Trim reduces cabin temperature by up to 6°C.",
@@ -204,7 +202,10 @@ export const subFeatureTabsData = {
                 alpha: 1.9459, beta: 1.6500, radius: 8.5564, x: 5.298, y: 10.156, z: 2.326
             },
             highlightMesh: () => {
-                // addHighlights("Roof_Cloth", false) 
+                // addHighlights("Roof_Trim_Provision", false);
+                highlightMeshUsingOverlayAndAlpha("Roof_Trim_Provision");
+                applyOutlineToMesh("Roof_Trim_Provision", false, 900);
+                hideMeshes(["Window_L"])
             },
             animations: [
             ]
@@ -215,6 +216,8 @@ export const subFeatureTabsData = {
                 alpha: -0.9133, beta: 1.4895, radius: 17.2698, x: 4.788, y: 1.932, z: 5.435
             },
             highlightMesh: () => {
+                addHighlights("Suspension_Fork_F");
+                addHighlights("Suspension_Spring_F");
 
             },
         },
@@ -235,44 +238,6 @@ export const subFeatureTabsData = {
 
             ]
         },
-        // {
-        //     title: "Drive Modes", content: "This allows the driver to choose from Eco, City, and Power modes.",
-        //     camera: {
-        //         alpha: -3.0606, beta: 1.3739, radius: 4.6, x: 5.534, y: 8.198, z: 0.395
-        //     },
-        //     highlightMesh: () => addHighlights("Drive_Mode_Buttons", false),
-        //     resetToDefaultPositionFirst: true,
-        //     animations: [
-        //         {
-        //             name: "TEXT_ECO_Action",
-        //             sequence: 0,
-        //             speed: 2,
-        //             loop: false,
-        //             startFrame: 0,
-        //             endFrame: 50,
-        //             reverse: false
-        //         },
-        //         {
-        //             name: "Text_CITY_Action",
-        //             sequence: 1,
-        //             speed: 2,
-        //             loop: false,
-        //             startFrame: 0,
-        //             endFrame: 50,
-        //             reverse: false
-        //         },
-        //         {
-        //             name: "Text_POWER_Action",
-        //             sequence: 2,
-        //             speed: 2,
-        //             loop: false,
-        //             startFrame: 0,
-        //             endFrame: 50,
-        //             reverse: false
-        //         },
-        //     ]
-        //     // zoomEffect : false
-        // }
     ],
     [FeatureCategory.Design]: [
         {
@@ -281,14 +246,23 @@ export const subFeatureTabsData = {
                 alpha: -0.0180, beta: 1.5391, radius: 25.9992, x: -0.030, y: 7.524, z: -0.900
             },
             // resetToDefaultPositionFirst : true,
-            highlightMesh: () => shineAnimation("Glossy_Copper", 0, -1, 120, HIGHLIGHT_COLOR),
+            highlightMesh: () => {
+                addHighlights("Sleek_Headlamp_MAsk", false);
+                applyOutlineToMesh("Sleek_Headlamp_MAsk", false, 500)
+
+                // shineAnimation("Glossy_Copper", 0, -1, 120, HIGHLIGHT_COLOR)
+            },
         },
         {
             title: "Large Windshield", content: "Large bonded windshield ensures clear visibility & safety.",
             camera: {
                 alpha: 3.1631, beta: 1.4966, radius: 8.5387, x: 8.470, y: 11.193, z: -0.592
             },
-            highlightMesh: () => addHighlights("Front_Fender", false),
+            highlightMesh: () => {
+                addHighlights("Front_Fender", false)
+                hideMeshes(["Cube.017_primitive0", "Cube.017_primitive1"])
+
+            },
         },
         {
             title: "Upscale Cabin", content: "Spacious Cabin with inner door trim & plush interiors.",
@@ -317,14 +291,18 @@ export const subFeatureTabsData = {
                 blinkAnimation("Indicator_Glow", 1000);
                 makeSceneDarkAnimation()
             },
-            showMesh: ["Healight_Glow", "Indicator_Glow", "LightBeam", "Backlight_Glow"]
+            showMesh: ["Headlight_Emission", "Headlight_Beam"]
         },
         {
             title: "Twin-Axis ORVMs", content: "Twin-axis ORVMs provide clear view for enhanced safety.",
             camera: {
                 alpha: 2.9987, beta: 1.5045, radius: 3.5006, x: 3.153, y: 9.926, z: 5.607
             },
-            highlightMesh: () => addHighlights("Brake_Motor_primitive0", false),
+            highlightMesh: () => {
+                addHighlights("Mirror_Axis_L2_primitive0", false)
+                addHighlights("Mirror_Axis_L1", false)
+            },
+            animations: orvmAnimation,
             // dontringHighlightObjectToTop : true,
         },
         {
@@ -346,6 +324,7 @@ export const subFeatureTabsData = {
                 alpha: -1.1056, beta: 1.4381, radius: 13.5176, x: 7.864, y: 1.464, z: 3.556
             },
             highlightMesh: () => {
+                addHighlights("Drum_Brake_Front_primitive0", false)
             },
         },
         {
@@ -363,16 +342,14 @@ export const subFeatureTabsData = {
         {
             title: "Futuristic tech", content: "26 smart connected features for convenience and safety.",
             camera: {
-                alpha: 3.1767, beta: 0.9498, radius: 2.5000, x: 6.281, y: 10.229, z: -0.028
+                alpha: 3.1362, beta: 1.1701, radius: 2.5000, x: 6.488, y: 10.258, z: -0.441
             },
             resetToDefaultPositionFirst: true,
             highlightMesh: async () => {
                 addHighlights("Cluster", false);
             },
             zoomEffect: false,
-            animations: [
-
-            ],
+            animations: futuristicTechAnimation,
         },
         {
             title: "Park with ease", content: "Concealed Parking Lever. Clean & clutter-free cabin.",
@@ -388,8 +365,7 @@ export const subFeatureTabsData = {
                 alpha: -0.0327, beta: 1.5190, radius: 19.7695, x: -0.443, y: 10.344, z: -0.870
             },
             resetToDefaultPositionFirst: true,
-            animations: [
-            ],
+            animations: wiperAnimation,
             highlightMesh: () => { },
         },
         {
@@ -524,9 +500,9 @@ export const subFeatureTabsData = {
                 alpha: 3.6019, beta: 1.1940, radius: 1.2, x: 8.528, y: 8.047, z: -1.306
             },
             // resetToDefaultPositionFirst: true,
-            highlightMesh: () => highlightMeshUsingOverlayAndAlpha(["SoftTop_Cloth"], "Tumble_Seat"),
+            highlightMesh: () => highlightMeshUsingOverlayAndAlpha("Tumble_Seat", ["SoftTop_Cloth"]),
             // hideMesh: ["Soft_Top"],
-            zoomInSmoothDuration : 2000,
+            zoomInSmoothDuration: 2000,
             zoomInSpeed: 0.5,
             animationsToPlay: ["Rotation_Tumble_Seat_Action"],
             animations: [
@@ -549,9 +525,7 @@ export const subFeatureTabsData = {
                 alpha: 3.1396, beta: 0.9429, radius: 6.0383, x: 7.137, y: 8.812, z: -2.879
             },
             resetToDefaultPositionFirst: true,
-            animations: [
-
-            ]
+            animations: gloveBoxAnimation
         },
         {
             title: "Easy Access", content: "Easy ingress & egress for quick access & smooth operation.",
@@ -573,7 +547,10 @@ export const subFeatureTabsData = {
             highlightMesh: () => {
                 updateStaticText("Max load deck", "6.6 Ft", 12, "column");
                 showStaticText();
+                addHighlights("Load_3",false)
             },
+            showMesh: ["Milestone", "Load_1", "Load_2", "Load_3", "Max_Load_Text","Max_Load_Text_2"],
+
             animations: [
 
             ]
@@ -600,6 +577,12 @@ export const subFeatureTabsData = {
             title: "Cover more", content: 'Large 12" tyres provide better stability and load capacity.',
             camera: {
                 alpha: 0.6870, beta: 1.2377, radius: 27.2885, x: 3.047, y: 3.990, z: -2.432
+            },
+            highlightMesh: () => {
+                addHighlights("Tyre_R_primitive2");
+                addHighlights("Tyre_R_primitive0");
+                addHighlights("Tyre_F_primitive0");
+                addHighlights("Tyre_F_primitive2");
             },
             animations: [
 
