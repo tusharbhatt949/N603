@@ -1,3 +1,4 @@
+import { Observer, Scene } from "babylonjs";
 import {
   CAMERA_DEFAULT_ALPHA_VALUE,
   CAMERA_DEFAULT_BETA_VALUE,
@@ -170,7 +171,7 @@ export const initialLoadCamera = async (
   });
   setCameraToDeafultPosition();
   // camera.position.x -= 10; // Shift scene to the right by moving camera left
-createCopyCameraButton(camera)
+  createCopyCameraButton(camera)
 
 };
 
@@ -310,4 +311,30 @@ export const disableCameraControlsTemporarily = async (durationMs: number): Prom
   });
 };
 
+
+
+let rotationObserver: Observer<Scene> | null = null;
+
+export function startRotateCamera360(
+  speed: number = 0.005 // default speed
+) {
+  const scene = camera.getScene();
+
+  // Stop existing rotation before starting a new one
+  stopRotateCamera360();
+
+  rotationObserver = scene.onBeforeRenderObservable.add(() => {
+    camera.alpha += speed;
+    if (camera.alpha > Math.PI * 2) {
+      camera.alpha -= Math.PI * 2;
+    }
+  });
+}
+
+export function stopRotateCamera360() {
+  if (rotationObserver) {
+    camera.getScene().onBeforeRenderObservable.remove(rotationObserver);
+    rotationObserver = null;
+  }
+}
 

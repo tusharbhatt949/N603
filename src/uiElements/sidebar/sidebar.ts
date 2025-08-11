@@ -200,11 +200,11 @@ export function scrollToCategory(category: FeatureCategory) {
     `.sidebar-item[data-category="${category}"]`
   ) as HTMLElement;
 
-  if (categoryElement && category != FeatureCategory.Technology) {
+  if (categoryElement && category != FeatureCategory.HeavyDuty) {
     categoryElement.scrollIntoView({ behavior: "smooth", block: "center" });
-
   }
-  if (category == FeatureCategory.Technology) {
+
+  if (category == FeatureCategory.HeavyDuty) {
     categoryElement.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 }
@@ -222,7 +222,7 @@ export function scrollToSubcategoryItemByIndex(category: FeatureCategory, index:
   const isLastOrSecondLastItem =
     index === subcategoryItems.length - 1 || index === subcategoryItems.length - 2;
 
-  if (category === FeatureCategory.Technology) {
+  if (category === FeatureCategory.HeavyDuty || category == FeatureCategory.Convenience) {
     if (isLastOrSecondLastItem) {
       const sidebar = document.getElementById("sidebar");
       if (sidebar) {

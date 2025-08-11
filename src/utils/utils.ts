@@ -12,8 +12,8 @@ import { hideStaticText } from "../uiElements/infographics/staticText";
 import { deselectMainCategory, deselectSubcategoryItem, scrollToSubcategoryItemByIndex } from "../uiElements/sidebar/sidebar";
 import { animateRoad, pauseAnimations, prepareAndPlayAnimations, resetAnimations, resetSceneLighting, resumeAnimations, stopSpeedLines, stopTextureAnimation } from "./animations";
 import { CURRENT_MODE, switchBackToManualMode, toggleMode } from "./autoManualMode";
-import { normalizeAlpha, pauseCameraRotation, resumeCameraRotation, rotateCamera, setCameraLimits, setCameraToDeafultPosition } from "./cameraRotation";
-import { resetTransparencyMode, stopAllHighlights } from "./highlights";
+import { normalizeAlpha, pauseCameraRotation, resumeCameraRotation, rotateCamera, setCameraLimits, setCameraToDeafultPosition, stopRotateCamera360 } from "./cameraRotation";
+import { resetOutlineHighlight, resetTransparencyMode, stopAllHighlights } from "./highlights";
 import { createHotspots, hideHotspots, showHotspots } from "./hotspots";
 import { pauseAudio, playVoiceOver, resumeAudio, stopCurrentAudio } from "./voiceovers";
 import { pauseZoomIn, resumeZoomIn, stopZoomIn, zoomInSmooth } from "./zoomInEffect";
@@ -103,6 +103,12 @@ export const selectTab = async (category: FeatureCategory, index: number, modeTy
         //@ts-ignore
         cameraValues = feature.manualConfig.camera;
     }
+    
+    //@ts-ignore
+    if (cameraValues.fov) {
+        //@ts-ignore
+        animateFOV(cameraValues.fov)
+    }
 
     await rotateCamera({
         alpha: cameraValues.alpha ?? 0,
@@ -116,11 +122,7 @@ export const selectTab = async (category: FeatureCategory, index: number, modeTy
         resetToDefaultPositionFirst: false,
     });
 
-    //@ts-ignore
-    if (cameraValues.fov) {
-        //@ts-ignore
-        await animateFOV(cameraValues.fov)
-    }
+    
 
 
     // if camera didn't reach its destination, return
@@ -150,8 +152,16 @@ export const selectTab = async (category: FeatureCategory, index: number, modeTy
     if (highlightMesh)
         highlightMesh()
 
-    if (zoomEffect != false)
-        zoomInSmooth();
+    if (zoomEffect != false) {
+        //@ts-ignore
+        const zoomInSpeed = feature.zoomInSpeed
+        if (zoomInSpeed) {
+            zoomInSmooth(9000, zoomInSpeed);
+
+        } else
+            zoomInSmooth();
+
+    }
 
     if (isRoadAnim) {
         animateRoad();
@@ -182,6 +192,8 @@ export const resetSceneState = () => {
     hideStaticText();
     hideExitButton();
     disableVignette();
+    stopRotateCamera360();
+    resetOutlineHighlight();
     camera.attachControl(canvas, true);
 
     if (INSIDE_CABIN_VIEW)
@@ -310,7 +322,7 @@ export const changeVehicleColor = (color: VehicleColors) => {
     animation.setKeys(keyFrames);
 
     // Apply the animation to materials
-    [ BodyMaterial].forEach(material => {
+    [BodyMaterial].forEach(material => {
         material.animations = [];
         material.animations.push(animation);
         scene.beginAnimation(material, 0, 5, false); // Run animation
@@ -421,6 +433,8 @@ const enterCabinView = async () => {
     hideHotspots();
 
     // Step 1: Rotate camera
+    animateFOV(CABIN_VIEW_CAMERA_POINTS.fov);
+
     await rotateCamera({
         alpha: CABIN_VIEW_CAMERA_POINTS.alpha,
         beta: CABIN_VIEW_CAMERA_POINTS.beta,
@@ -432,6 +446,7 @@ const enterCabinView = async () => {
         }
     });
 
+
     // Step 2: Lock zoom after rotation
     if (INSIDE_CABIN_VIEW) {
         camera.lowerRadiusLimit = CABIN_VIEW_CAMERA_POINTS.radius - 1;
@@ -439,7 +454,6 @@ const enterCabinView = async () => {
     }
 
     // Step 3: Subtle FOV change after rotation
-    await animateFOV(CABIN_VIEW_CAMERA_POINTS.fov);
 };
 
 

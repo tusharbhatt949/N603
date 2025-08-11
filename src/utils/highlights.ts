@@ -1,3 +1,4 @@
+import { Color3, Color4, Mesh } from "babylonjs";
 import { HIGHLIGHT_COLOR } from "../constants/values";
 import { highlightLayer, scene } from "../main";
 import { VEHICLE_MESHES } from "./utils";
@@ -44,7 +45,7 @@ export const addHighlights = (meshName: string, bringToTop: boolean = true): voi
 
     // **Glow Intensity Range**
     const minGlow = 0.5; // Minimum glow intensity
-    const maxGlow = 1; // Maximum glow intensity
+    const maxGlow = 0.8; // Maximum glow intensity
 
     let animationFrameId: number;
 
@@ -203,3 +204,34 @@ const resetHighlightOverlayAndOutline = () => {
 };
 
 
+const MeshesWithOutlineHighlight: Mesh[] = [];
+
+export function applyOutlineToMesh(
+  meshName: string,
+  bringToTop: boolean = true,
+  outlineWidth: number = 0.1,
+) {
+  const mesh = scene.getMeshByName(meshName) as Mesh | null;
+  if (!mesh) {
+    console.warn(`Mesh with name "${meshName}" not found`);
+    return;
+  }
+
+  // Enable outline rendering
+  if(bringToTop)
+  mesh.renderingGroupId = 1;
+
+  mesh.renderOutline = true;
+  mesh.outlineWidth = outlineWidth;
+
+  // Use Color3 for RGB
+  mesh.outlineColor = Color3.FromHexString("#00DDFF"); // Hex without alpha
+
+  MeshesWithOutlineHighlight.push(mesh);
+}
+
+export function resetOutlineHighlight() {
+    MeshesWithOutlineHighlight.forEach(mesh => {
+        mesh.renderingGroupId = 0
+    });
+}

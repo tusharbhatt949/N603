@@ -44,7 +44,7 @@ export const MESHES_WITH_GLOW_EFFECT = ["Healight_Glow","Indicator_Glow"]
 
 export const PLAY_PAUSE_TOGGLE_COOLDOWN = 600; //ms
 
-export const HIGHLIGHT_COLOR = "#1DF0FF";
+export const HIGHLIGHT_COLOR = "#00eeff";
 
 export const CABIN_VIEW_CAMERA_POINTS = {
      alpha: -3.1237, beta: 1.2620, radius: 0.2509, x: 2.329, y: 11.370, z: -0.459, fov:1.45

@@ -2,7 +2,8 @@ import { showChargingInfographics } from "../uiElements/infographics/chargingTex
 import { startIncrementingText } from "../uiElements/infographics/rangeText";
 import { showStaticText, updateStaticText } from "../uiElements/infographics/staticText";
 import { blinkAnimation, makeSceneDarkAnimation, prepareAndPlayAnimations, shineAnimation, slowAndStopAnimation, startSpeedLines, stopSpeedLines } from "../utils/animations";
-import { addHighlights, highlightMeshUsingOverlayAndAlpha, highlightMeshUsingTransparencyMode } from "../utils/highlights";
+import { startRotateCamera360 } from "../utils/cameraRotation";
+import { addHighlights, applyOutlineToMesh, highlightMeshUsingOverlayAndAlpha, highlightMeshUsingTransparencyMode } from "../utils/highlights";
 import { makeMeshVisible, setRenderingGroupId, sleep } from "../utils/utils";
 import { GradeabilityAnimation, WaterWadingAnimation } from "./animationData";
 import { FeatureCategory } from "./enums";
@@ -16,9 +17,10 @@ export const subFeatureTabsData = {
                 alpha: 0.8370, beta: 1.0395, radius: 22.2872, x: -0.723, y: 7.612, z: 0.695
             },
             highlightMesh: () => {
-                addHighlights("Engine_N603", true)
+                // addHighlights("Engine_N603", true)
                 updateStaticText("Pickup in 5.9 secs", "0-30 KM/Hr", 12, "column");
                 showStaticText();
+                applyOutlineToMesh("Engine_N603")
             },
             isRoadAnim: true,
             animations: [
@@ -48,7 +50,7 @@ export const subFeatureTabsData = {
                 alpha: 1.4597, beta: 1.5923, radius: 40.9816, x: -0.010, y: 8.711, z: -0.026
             },
             highlightMesh: () => {
-                updateStaticText("Max Speed", "60 Km/h", 12, "column");
+                updateStaticText("Max Speed", "60 Km/h", 12, "column", true);
                 showStaticText();
             },
             animations: [
@@ -61,7 +63,8 @@ export const subFeatureTabsData = {
                 alpha: 1.0783, beta: 1.2186, radius: 34.7685, x: -1.084, y: 7.718, z: 0.535
             },
             highlightMesh: () => {
-                addHighlights("Battery_Pack_N603_primitive0")
+                // addHighlights("Battery_Pack_N603_primitive0")
+                applyOutlineToMesh("Battery_Pack_N603_primitive0")
                 showChargingInfographics();
             },
             animations: [
@@ -148,7 +151,7 @@ export const subFeatureTabsData = {
                 alpha: 1.5, beta: 1.5, radius: 44, x: 2, y: 7.5, z: 0
             },
             highlightMesh: () => {
-                updateStaticText("Gradeability", "28.7%", 12, "column");
+                updateStaticText("Gradeability", "28.7%", 12, "column", true);
                 showStaticText();
             },
             animations: GradeabilityAnimation
@@ -159,7 +162,7 @@ export const subFeatureTabsData = {
                 alpha: 1.4597, beta: 1.5923, radius: 40.9816, x: -0.010, y: 8.711, z: -0.026
             },
             highlightMesh: () => {
-                updateStaticText("High Ground Clearance", "235 mm", 12, "column");
+                updateStaticText("High Ground Clearance", "235 mm", 12, "column", true);
                 showStaticText();
             },
             animations: [
@@ -173,9 +176,11 @@ export const subFeatureTabsData = {
 
             highlightMesh: () => {
                 updateStaticText("Warranty", "6yr/1.5 Lakh KMs", 12, "column");
-                showStaticText()
+                showStaticText();
+                startRotateCamera360();
                 // startIncrementingText()
             },
+            zoomEffect:false,
             animations: [
             ]
         },
@@ -187,7 +192,8 @@ export const subFeatureTabsData = {
                 alpha: 1.5684, beta: 1.5185, radius: 26.0366, x: 4.866, y: 9.717, z: -0.470
             },
             highlightMesh: () => {
-                addHighlights("Window_L_primitive1", false)
+                addHighlights("Window_L_primitive1", false);
+                // applyOutlineToMesh("Window_L_primitive1", false, 0.2)
             },
             animations: [
             ]
@@ -220,6 +226,9 @@ export const subFeatureTabsData = {
             highlightMesh: () => {
                 addHighlights("Seat_primitive0", true);
                 addHighlights("Seat_Backrest_primitive0", true);
+
+                applyOutlineToMesh("Seat_primitive0")
+                applyOutlineToMesh("Seat_Backrest_primitive0")
             },
             hideMesh: ["Windshield"],
             animations: [
@@ -325,7 +334,7 @@ export const subFeatureTabsData = {
             },
             animationsToPlayInLoop: ["Rotation_Rear_Tyre_Action", "Rotation_Front_Tyre_Action"],
             highlightMesh: () => {
-                updateStaticText("Water Wading Power", "500 mm", 12, "column");
+                updateStaticText("Water Wading Power", "500 mm", 12, "column", true);
                 showStaticText();
             },
             animations: WaterWadingAnimation,
@@ -512,11 +521,13 @@ export const subFeatureTabsData = {
         {
             title: "USB Charging Port", content: "USB charging port always keeps you connected.",
             camera: {
-                alpha: 3.6019, beta: 1.1940, radius: 1.2511, x: 8.528, y: 8.047, z: -1.306
+                alpha: 3.6019, beta: 1.1940, radius: 1.2, x: 8.528, y: 8.047, z: -1.306
             },
             // resetToDefaultPositionFirst: true,
             highlightMesh: () => highlightMeshUsingOverlayAndAlpha(["SoftTop_Cloth"], "Tumble_Seat"),
             // hideMesh: ["Soft_Top"],
+            zoomInSmoothDuration : 2000,
+            zoomInSpeed: 0.5,
             animationsToPlay: ["Rotation_Tumble_Seat_Action"],
             animations: [
                 {
