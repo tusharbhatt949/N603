@@ -1,4 +1,4 @@
-export const IS_DEV_ENV = true;
+export const IS_DEV_ENV = false;
 export const DEFAULT_TRANSPARENT_ALPHA_VALUE = 1;
 export const DEFAULT_ENVIRONMENT_INTESITY = 1;
 export const ANIMATIONS = [];
@@ -40,7 +40,22 @@ export const MESHES_TO_HIDE_ON_LOAD = ["E_Charge_1","E_Charge_2","E_Charge_3","E
     "Milestone","Stop_Sign","Top_Speed_Text","Water_Wading_Text","Hill_Assist_Text","Gradeability_Text","179_Text","KMS_Text", "Hill_Hold_Arrow",
 
 
-    "Load_1","Load_2","Load_3","Max_Load_Text","Max_Load_Text_2","Headlight_Beam" ,"Headlight_Emission" ,"Plane.005_primitive1"
+    "Load_1","Load_2","Load_3","Load_4","Max_Load_Text","Max_Load_Text_2","Headlight_Beam" ,"Headlight_Emission" ,"Plane.005_primitive1",
+
+    "Container","Container_Frame",
+
+    "Seat_Wireframe",
+
+    "Max_Stability_Arrow",
+
+    "Aero_Dynamics",
+
+    "Charging_Status",
+
+    "Turning_Path",
+
+    "Backlight_Emisson",
+    "Pickup_Line"
 ];
 
 export const MESHES_WITH_GLOW_EFFECT = ["Healight_Glow","Indicator_Glow"]

@@ -103,7 +103,7 @@ export const selectTab = async (category: FeatureCategory, index: number, modeTy
         //@ts-ignore
         cameraValues = feature.manualConfig.camera;
     }
-    
+
     //@ts-ignore
     if (cameraValues.fov) {
         //@ts-ignore
@@ -122,7 +122,7 @@ export const selectTab = async (category: FeatureCategory, index: number, modeTy
         resetToDefaultPositionFirst: false,
     });
 
-    
+
 
 
     // if camera didn't reach its destination, return
@@ -194,6 +194,7 @@ export const resetSceneState = () => {
     disableVignette();
     stopRotateCamera360();
     resetOutlineHighlight();
+    stopAllTextureAnimations()
     camera.attachControl(canvas, true);
 
     if (INSIDE_CABIN_VIEW)
@@ -291,14 +292,20 @@ export const changeVehicleColor = (color: VehicleColors) => {
     const colorBtnElems = document.getElementsByClassName("colorBtn");
     const colorElem = document.getElementById(color);
 
-    let BayDoorMaterial: any = scene.getMaterialByName("BayDoor");
     let BodyMaterial: any = scene.getMaterialByName("Body_Color_Base");
-    let TVSBayDoorlogoMaterial: any = scene.getMaterialByName("TVS_Logo_Baydoor");
+    let BodyMaterial1: any = scene.getMaterialByName("Chassis_Mat");
 
-    if (!BodyMaterial) return;
+    if (!BodyMaterial && !BodyMaterial1) return;
 
+
+    // if(color === VehicleColors.NeptuneBlue) {
+    //     applyTextureToMaterial("Stickers", ASSETS.OTHERS.blueColorTexture);
+    // } else if(color === VehicleColors.PristineWhite) {
+    //     applyTextureToMaterial("Stickers", ASSETS.OTHERS.whiteColorTexture);
+    // }
+ 
     // Define start and end colors
-    let startColor = BodyMaterial.albedoColor.clone(); // Get current color
+    let startColor = (BodyMaterial || BodyMaterial1).albedoColor.clone(); // Use whichever exists
     let endColor = color === VehicleColors.PristineWhite
         ? BABYLON.Color3.FromHexString("#ebecea").toLinearSpace()  // White
         : BABYLON.Color3.FromHexString("#3172ad").toLinearSpace(); // Blue
@@ -317,21 +324,18 @@ export const changeVehicleColor = (color: VehicleColors) => {
     // Define animation keyframes
     const keyFrames = [
         { frame: 0, value: startColor },
-        { frame: 5, value: endColor } // Complete transition in ~1 second
+        { frame: 5, value: endColor }
     ];
     animation.setKeys(keyFrames);
 
-    // Apply the animation to materials
-    [BodyMaterial].forEach(material => {
-        material.animations = [];
-        material.animations.push(animation);
-        scene.beginAnimation(material, 0, 5, false); // Run animation
+    // Apply animation to both materials (if they exist)
+    [BodyMaterial, BodyMaterial1].forEach(material => {
+        if (material) {
+            material.animations = [];
+            material.animations.push(animation.clone()); // Clone so each has its own animation instance
+            scene.beginAnimation(material, 0, 5, false);
+        }
     });
-
-    // TVS Logo color (optional, instant change)
-    // TVSBayDoorlogoMaterial.albedoColor = color === VehicleColors.PristineWhite
-    //     ? BABYLON.Color3.FromHexString("#193278").toLinearSpace()  // Dark blue
-    //     : BABYLON.Color3.FromHexString("#ebecea").toLinearSpace(); // White
 
     // Update button active states
     for (let index = 0; index < colorBtnElems.length; index++) {
@@ -339,6 +343,7 @@ export const changeVehicleColor = (color: VehicleColors) => {
     }
     if (colorElem) colorElem.classList.add("active");
 };
+
 
 
 export const fullscreenToggle = (btn: HTMLElement) => {
@@ -675,7 +680,7 @@ export function setEmissiveColorByMaterialName(materialName: string): void {
         return;
     }
 
-    const gray = Color3.FromHexString("#808080");
+    const gray = Color3.FromHexString("#000000FF");
 
     if ("emissiveColor" in material) {
         (material as StandardMaterial | PBRMaterial).emissiveColor = gray;
@@ -820,3 +825,146 @@ export async function applyNodeMaterialToMesh(meshName: string, materialPath: st
     }
 }
 
+
+import * as BABYLON from "babylonjs";
+
+interface TextureAnimationEntry {
+    observer: BABYLON.Observer<BABYLON.Scene>;
+    texture: BABYLON.Texture;
+}
+
+const activeTextureAnimations: TextureAnimationEntry[] = [];
+
+export function animateMaterialTextureUOffset(
+    materialName: string,
+    speed: number = 0.01,
+    targetOffset?: number, // New optional param
+    textureSlot?: string,
+) {
+    const mat = scene.getMaterialByName(materialName) as BABYLON.Material | null;
+
+    if (!mat) {
+        console.warn(`Material '${materialName}' not found.`);
+        return;
+    }
+
+    let tex: BABYLON.Texture | null = null;
+
+    if (textureSlot) {
+        const foundTex = (mat as any)[textureSlot];
+        if (foundTex instanceof BABYLON.Texture) {
+            tex = foundTex;
+        }
+    } else {
+        const texSlots = [
+            "diffuseTexture",
+            "albedoTexture",
+            "emissiveTexture",
+            "ambientTexture",
+            "opacityTexture",
+            "bumpTexture",
+            "metallicTexture",
+            "roughnessTexture"
+        ];
+
+        for (const slot of texSlots) {
+            const foundTex = (mat as any)[slot];
+            if (foundTex instanceof BABYLON.Texture) {
+                tex = foundTex;
+                break;
+            }
+        }
+    }
+
+    if (!tex) {
+        console.warn(
+            textureSlot
+                ? `Texture slot '${textureSlot}' not found or not a BABYLON.Texture in '${materialName}'.`
+                : `No texture found in material '${materialName}'.`
+        );
+        return;
+    }
+
+    // Add animation to the scene loop and store observer + texture
+    const observer = scene.onBeforeRenderObservable.add(() => {
+        tex.uOffset += speed;
+
+        // Wrap for endless animation if targetOffset not provided
+        if (targetOffset === undefined) {
+            if (tex.uOffset > 1) tex.uOffset -= 1;
+            else if (tex.uOffset < 0) tex.uOffset += 1;
+        } else {
+            // Stop when we reach or pass the target
+            if ((speed > 0 && tex.uOffset >= targetOffset) ||
+                (speed < 0 && tex.uOffset <= targetOffset)) {
+                tex.uOffset = targetOffset;
+                scene.onBeforeRenderObservable.remove(observer);
+                return;
+            }
+        }
+    });
+
+    activeTextureAnimations.push({ observer, texture: tex });
+}
+
+
+export function stopAllTextureAnimations() {
+    activeTextureAnimations.forEach(({ observer, texture }) => {
+        scene.onBeforeRenderObservable.remove(observer);
+        if (texture && texture instanceof BABYLON.Texture) {
+            texture.uOffset = 0; // Reset position
+        }
+    });
+    activeTextureAnimations.length = 0; // Clear list
+}
+
+
+
+export function setEmissiveTextureFromPath(
+    materialName: string,
+    texturePath: string = ASSETS.OTHERS.emissiveTexture
+) {
+    const mat = scene.getMaterialByName(materialName) as BABYLON.Material | null;
+
+    if (!mat) {
+        console.warn(`Material '${materialName}' not found.`);
+        return;
+    }
+
+    // Create texture
+    const emissiveTex = new BABYLON.Texture(texturePath, scene);
+
+    // Apply it
+    (mat as any).emissiveTexture = emissiveTex;
+
+    // Optional: make emissive stand out
+    if ((mat as any).emissiveColor instanceof BABYLON.Color3) {
+        (mat as any).emissiveColor = new BABYLON.Color3(1, 1, 1);
+    }
+
+    console.log(`Emissive texture applied to '${materialName}' from '${texturePath}'`);
+}
+
+
+
+export function applyTextureToMaterial(
+    materialName: string,
+    texturePath: string,
+    textureSlot: string = "albedoTexture"
+) {
+    const mat = scene.getMaterialByName(materialName) as BABYLON.Material | null;
+
+    if (!mat) {
+        console.warn(`Material '${materialName}' not found.`);
+        return;
+    }
+
+    const tex = new BABYLON.Texture(texturePath, scene);
+
+    // Assign to specified slot if exists
+    if ((mat as any)[textureSlot] !== undefined) {
+        (mat as any)[textureSlot] = tex;
+    } else {
+        console.warn(`Texture slot '${textureSlot}' not found on material '${materialName}'.`);
+    }
+}

@@ -114,6 +114,8 @@ const updateUIForMode = (modeType :ModeType) => {
 
 export const autoPlayTabs = async (category: FeatureCategory): Promise<void> => {
     const startTime = Date.now(); // Record the start time of the category
+
+    //@ts-ignore
     const timeForCategoryInSecs =  subFeatureTabsData["AutoPlayTimes"][category]
     startProgressBar(category,timeForCategoryInSecs);
 

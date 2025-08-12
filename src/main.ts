@@ -8,7 +8,7 @@ import "./uiElements/autoModeTimeline/autoModeTimeline.css";
 import "./styles/staticText.scss"
 import { createUI } from "./uiElements/sidebar/sidebar";
 import { createSubFeatureTabs } from "./uiElements/subFeatureTabs/subFeatureTabs";
-import { applyNodeMaterialToMesh, applyShaderToMesh, changeMaterialToAlphaBlend, changeVehicleColor, enableDebugMode, hideMeshesOnLoad, isDeviceRotated, setEmissiveColorByMaterialName, setupRenderingPipeline, stopAndStoreAllAnimationsOnLoad, storeVehicleMeshes } from "./utils/utils";
+import { applyNodeMaterialToMesh, applyShaderToMesh, changeMaterialToAlphaBlend, changeVehicleColor, enableDebugMode, hideMeshesOnLoad, isDeviceRotated, setEmissiveColorByMaterialName, setEmissiveTextureFromPath, setupRenderingPipeline, stopAndStoreAllAnimationsOnLoad, storeVehicleMeshes } from "./utils/utils";
 import { createHeader } from "./uiElements/header/header";
 import { createLoadingScreen, removeLoadingScreen, updateLoadingProgress } from "./uiElements/loadingScreen/loadingScreen";
 import { initialLoadCamera } from "./utils/cameraRotation";
@@ -125,14 +125,21 @@ const loadMesh = (scene: BABYLON.Scene, shadowGenerator: BABYLON.ShadowGenerator
     scene,
     (meshes, _particleSystems, _skeletons, animationGroups) => {
       const floorMesh = meshes[0];
-      floorMesh.scaling = new BABYLON.Vector3(70, 70, -70);
+      floorMesh.scaling = new BABYLON.Vector3(0.70, 0.70, -0.70);
+      floorMesh.position = new BABYLON.Vector3(16.557, -2.312, -0.78);
+
       const floor = scene.getMeshByName("Walls");
 
       animationGroups.forEach((animationGroup) => animationGroup.stop());
       // @ts-ignore
       stopAndStoreAllAnimationsOnLoad(animationGroups);
       hideMeshesOnLoad(); // Hide some meshes on load
-
+      setEmissiveColorByMaterialName("ENV_Dome")
+      setEmissiveTextureFromPath("Charging_Mat", ASSETS.OTHERS.chargingTexture)
+      setEmissiveTextureFromPath("Sleek_Headlamp_Mat")
+      setEmissiveTextureFromPath("Max_Speed_Mat")
+      setEmissiveTextureFromPath("Plastic_Black_Glossy")
+      setEmissiveTextureFromPath("Orange")
       if (floor) floor.receiveShadows = true;
 
       updateProgress(); // Update loading screen progress
@@ -173,22 +180,21 @@ const loadMesh = (scene: BABYLON.Scene, shadowGenerator: BABYLON.ShadowGenerator
       changeMaterialToAlphaBlend("Healight_Glow", scene);
       storeOriginalTransparencyModes();
       setupRenderingPipeline(scene, camera, MESHES_WITH_GLOW_EFFECT);
-      createHotspots();
+      // createHotspots();
 
       applyNodeMaterialToMesh("ICON_7_primitive4", ASSETS.OTHERS.iconMaterial)
       applyNodeMaterialToMesh("ICON_6_primitive3", ASSETS.OTHERS.iconMaterial)
       applyNodeMaterialToMesh("ICON_5_primitive3", ASSETS.OTHERS.iconMaterial)
       applyNodeMaterialToMesh("ICON_4_primitive3", ASSETS.OTHERS.iconMaterial)
-      applyNodeMaterialToMesh("ICON_3_primitive3", ASSETS.OTHERS.iconMaterial) 
+      applyNodeMaterialToMesh("ICON_3_primitive3", ASSETS.OTHERS.iconMaterial)
       applyNodeMaterialToMesh("ICON_2_primitive3", ASSETS.OTHERS.iconMaterial)
       applyNodeMaterialToMesh("ICON_1_primitive4", ASSETS.OTHERS.iconMaterial);
       // applyNodeMaterialToMesh("TEXT_ECO", ASSETS.OTHERS.textMaterial);
       // applyNodeMaterialToMesh("Text_CITY", ASSETS.OTHERS.textMaterial);
       // applyNodeMaterialToMesh("Text_POWER", ASSETS.OTHERS.textMaterial);
 
-      // setEmissiveColorByMaterialName("White_Emissive")
 
-      changeVehicleColor(VehicleColors.PristineWhite)
+      changeVehicleColor(VehicleColors.NeptuneBlue)
       // Load the texture
       // await animateSpeedLines();
       meshes.forEach(mesh => {
@@ -257,7 +263,7 @@ const loadMesh = (scene: BABYLON.Scene, shadowGenerator: BABYLON.ShadowGenerator
 //   glowLayer = new GlowLayer("glow", scene);
 //   glowLayer.intensity = 0.8;
 
-  
+
 //   return { pipeline, glowLayer };
 // };
 
@@ -290,10 +296,11 @@ const autoModeTimelineContainer: HTMLElement | null = document.getElementById("a
 autoModeTimelineContainer?.appendChild(CreateAutoModeTimeline())
 
 const debugBtn = document.getElementById("debuglayer-btn") as HTMLElement;
-debugBtn?.addEventListener("click", () => { enableDebugMode(); camera.attachControl(canvas, true), 
+debugBtn?.addEventListener("click", () => {
+  enableDebugMode(); camera.attachControl(canvas, true),
     camera.panningSensibility = 60;
 
- });
+});
 
 if (!IS_DEV_ENV) {
   // debugBtn.classList.add("hidden")

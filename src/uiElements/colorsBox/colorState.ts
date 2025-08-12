@@ -8,8 +8,8 @@ export type ColorState = {
   };
   
   const colorState: ColorState = {
-    currentColor: VehicleColors.PristineWhite,
-    currentColorName: "Pristine White"
+    currentColor: VehicleColors.NeptuneBlue,
+    currentColorName: "Neptune Blue"
   };
   
   const subscribers: Array<(state: ColorState) => void> = [];

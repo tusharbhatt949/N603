@@ -1,3 +1,5 @@
+    //@ts-nocheck
+
 import { Color3, Color4, Mesh } from "babylonjs";
 import { HIGHLIGHT_COLOR } from "../constants/values";
 import { highlightLayer, scene } from "../main";

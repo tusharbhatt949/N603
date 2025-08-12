@@ -4,8 +4,8 @@ import { showStaticText, updateStaticText } from "../uiElements/infographics/sta
 import { blinkAnimation, makeSceneDarkAnimation, prepareAndPlayAnimations, shineAnimation, slowAndStopAnimation, startSpeedLines, stopSpeedLines } from "../utils/animations";
 import { startRotateCamera360 } from "../utils/cameraRotation";
 import { addHighlights, applyOutlineToMesh, highlightMeshUsingOverlayAndAlpha, highlightMeshUsingTransparencyMode } from "../utils/highlights";
-import { hideMeshes, makeMeshVisible, setRenderingGroupId, sleep } from "../utils/utils";
-import { futuristicTechAnimation, gloveBoxAnimation, GradeabilityAnimation, orvmAnimation, rollingWindowsAnimation, WaterWadingAnimation, wiperAnimation } from "./animationData";
+import { animateMaterialTextureUOffset, hideMeshes, makeMeshVisible, setRenderingGroupId, sleep } from "../utils/utils";
+import { coverMoreBrakingAnimation, easyAccessAnimation, effortlessBrakingAnimation, futuristicTechAnimation, gloveBoxAnimation, GradeabilityAnimation, highGroundClearingEaseAnimation, maxStabilityAnimation, orvmAnimation, parkingBrakeAnimation, rollingWindowsAnimation, turnWithEaseAnimation, WaterWadingAnimation, wheelAnimation, wiperAnimation } from "./animationData";
 import { FeatureCategory } from "./enums";
 import { CAMERA_DEFAULT_TARGET_POSITION_X, CAMERA_DEFAULT_TARGET_POSITION_Y, CAMERA_DEFAULT_TARGET_POSITION_Z, CAMERA_DEFAULT_ALPHA_VALUE, CAMERA_DEFAULT_BETA_VALUE, CAMERA_DEFAULT_DESKTOP_RADIUS_VALUE, HIGHLIGHT_COLOR } from "./values";
 
@@ -16,11 +16,14 @@ export const subFeatureTabsData = {
             camera: {
                 alpha: 0.8370, beta: 1.0395, radius: 22.2872, x: -0.723, y: 7.612, z: 0.695
             },
+            showMesh:["Pickup_Line"],
             highlightMesh: () => {
                 // addHighlights("Engine_N603", true)
                 updateStaticText("Pickup in 5.9 secs", "0-30 KM/Hr", 12, "column");
                 showStaticText();
                 applyOutlineToMesh("Engine_N603")
+                applyOutlineToMesh("Pickup_Line")
+                animateMaterialTextureUOffset("Max_Speed_Mat", -0.02)
             },
             isRoadAnim: true,
             animations: [
@@ -49,9 +52,11 @@ export const subFeatureTabsData = {
             camera: {
                 alpha: 1.4597, beta: 1.5923, radius: 40.9816, x: -0.010, y: 8.711, z: -0.026
             },
+            showMesh: ["Aero_Dynamics"],
             highlightMesh: () => {
                 updateStaticText("Max Speed", "60 Km/h", 12, "column", true);
                 showStaticText();
+                animateMaterialTextureUOffset("Aerodynamics", -0.02)
             },
             animations: [
 
@@ -62,10 +67,13 @@ export const subFeatureTabsData = {
             camera: {
                 alpha: 1.0783, beta: 1.2186, radius: 34.7685, x: -1.084, y: 7.718, z: 0.535
             },
+            showMesh: ["Charging_Status"],
             highlightMesh: () => {
                 // addHighlights("Battery_Pack_N603_primitive0")
-                applyOutlineToMesh("Battery_Pack_N603_primitive0")
+                applyOutlineToMesh("Battery_Pack_N603_primitive0",)
+                applyOutlineToMesh("Charging_Status", true, 0.00001)
                 showChargingInfographics();
+                animateMaterialTextureUOffset("Charging_Mat", -0.01)
             },
             animations: [
                 {
@@ -81,7 +89,7 @@ export const subFeatureTabsData = {
             ]
         },
         {
-            title: "Go Far", content: "Travel longer with 156 km (GVW) real-world range.",
+            title: "Go Far", content: "Travel longer with 156 km (FSD) real-world range.",
             camera: {
                 alpha: 1.4597, beta: 1.5923, radius: 40.9816, x: -0.010, y: 8.711, z: -0.026
             },
@@ -93,38 +101,21 @@ export const subFeatureTabsData = {
 
             },
             animations: [
-                {
-                    name: "Rotation_Rear_Tyre_Action",
-                    sequence: 0,
-                    speed: 6,
-                    loop: true,
-                    startFrame: 0,
-                    endFrame: null,
-                    reverse: false
-                },
-                {
-                    name: "Rotation_Front_Tyre_Action",
-                    sequence: 0,
-                    speed: 6,
-                    loop: true,
-                    startFrame: 0,
-                    endFrame: null,
-                    reverse: false
-                },
+                ...wheelAnimation,
                 {
                     name: "Milestone_Action",
                     sequence: 0,
-                    speed: 1.5,
+                    speed: 1,
                     loop: false,
                     startFrame: 0,
                     endFrame: null,
                     reverse: false,
-                    noOfIterations: 4,
-                    iterationEndFrame: 58,
+                    noOfIterations: 3,
+                    iterationEndFrame: 50,
                     // showMesh:["179_Text","KMS_Text"],
                     onIterationComplete: (iterationNo: number) => {
-                        if (iterationNo == 4) {
-                            slowAndStopAnimation(["Rotation_Rear_Tyre_Action", "Rotation_Front_Tyre_Action", "roadAnim"]);
+                        if (iterationNo == 3) {
+                            slowAndStopAnimation(["Tyre_Rear_Action", "Tyre_Front_Rotation_Action ", "roadAnim"]);
                             makeMeshVisible("179_Text");
                             makeMeshVisible("KMS_Text");
                         }
@@ -133,13 +124,15 @@ export const subFeatureTabsData = {
             ]
         },
         {
-            title: "Carry More", content: "187 Cubic Feet of Volumetric Capacity. Carry more per trip.",
+            title: "Carry More", content: "192 Cubic Feet of Volumetric Capacity. Carry more per trip.",
             camera: {
-                alpha: 0.6742, beta: 1.2796, radius: 46.0186, x: 0.000, y: 7.500, z: 0.000
+                alpha: 0.7058, beta: 1.2776, radius: 49.7506, x: 0.198, y: 10.214, z: -1.562
             },
-            showMesh: ["Load_1", "Load_2", "Load_3"],
+            showMesh: ["Container", "Container_Frame"],
             highlightMesh: () => {
                 // startIncrementingText()
+                updateStaticText("Volumetric Capacity", "192 Cubic ft", 12, "column", true);
+                showStaticText();
             },
             animations: [
             ]
@@ -164,15 +157,13 @@ export const subFeatureTabsData = {
                 updateStaticText("High Ground Clearance", "235 mm", 12, "column", true);
                 showStaticText();
             },
-            animations: [
-            ]
+            animations: highGroundClearingEaseAnimation
         },
         {
             title: "Peace of Mind", content: "Worry-free drives with 6yr/1.5 lakh km warranty.",
             camera: {
-                alpha: 1.4597, beta: 1.5923, radius: 40.9816, x: -0.010, y: 8.711, z: -0.026
+                alpha: -0.0409, beta: 1.5515, radius: 36.0000, x: 0.000, y: 7.500, z: 0.000
             },
-
             highlightMesh: () => {
                 updateStaticText("Warranty", "6yr/1.5 Lakh KMs", 12, "column");
                 showStaticText();
@@ -203,8 +194,8 @@ export const subFeatureTabsData = {
             },
             highlightMesh: () => {
                 // addHighlights("Roof_Trim_Provision", false);
-                highlightMeshUsingOverlayAndAlpha("Roof_Trim_Provision");
-                applyOutlineToMesh("Roof_Trim_Provision", false, 900);
+                highlightMeshUsingOverlayAndAlpha("Roof_Trim_P");
+                applyOutlineToMesh("Roof_Trim_P", false, 900);
                 hideMeshes(["Window_L"])
             },
             animations: [
@@ -226,14 +217,17 @@ export const subFeatureTabsData = {
             camera: {
                 alpha: -5.8645, beta: 1.0734, radius: 13.5185, x: 1.369, y: 7.140, z: -1.733
             },
+            showMesh: ["Seat_Wireframe"],
+
             highlightMesh: () => {
+                hideMeshes(["Large_Windshield  "])
                 addHighlights("Seat_primitive0", true);
                 addHighlights("Seat_Backrest_primitive0", true);
+                addHighlights("Seat_Wireframe", true);
 
-                applyOutlineToMesh("Seat_primitive0")
-                applyOutlineToMesh("Seat_Backrest_primitive0")
+                applyOutlineToMesh("Seat_primitive0", true)
+                applyOutlineToMesh("Seat_Backrest_primitive0", true)
             },
-            hideMesh: ["Windshield"],
             animations: [
 
             ]
@@ -249,6 +243,7 @@ export const subFeatureTabsData = {
             highlightMesh: () => {
                 addHighlights("Sleek_Headlamp_MAsk", false);
                 applyOutlineToMesh("Sleek_Headlamp_MAsk", false, 500)
+                animateMaterialTextureUOffset("Sleek_Headlamp_Mat", -0.02, -1)
 
                 // shineAnimation("Glossy_Copper", 0, -1, 120, HIGHLIGHT_COLOR)
             },
@@ -259,8 +254,8 @@ export const subFeatureTabsData = {
                 alpha: 3.1631, beta: 1.4966, radius: 8.5387, x: 8.470, y: 11.193, z: -0.592
             },
             highlightMesh: () => {
-                addHighlights("Front_Fender", false)
-                hideMeshes(["Cube.017_primitive0", "Cube.017_primitive1"])
+                addHighlights("Large_Windshield  ", false)
+                hideMeshes(["Cabin_Glass_primitive0", "Cabin_Glass_primitive1"])
 
             },
         },
@@ -277,6 +272,7 @@ export const subFeatureTabsData = {
                 alpha: 3.1720, beta: 0.8943, radius: 7.2706, x: 8.598, y: 8.523, z: -0.555
             },
             highlightMesh: () => {
+                animateMaterialTextureUOffset("Plastic_Black_Glossy", -0.01, -0.9)
 
             },
         }
@@ -291,7 +287,7 @@ export const subFeatureTabsData = {
                 blinkAnimation("Indicator_Glow", 1000);
                 makeSceneDarkAnimation()
             },
-            showMesh: ["Headlight_Emission", "Headlight_Beam"]
+            showMesh: ["Headlight_Emission", "Headlight_Beam", "Backlight_Emisson"]
         },
         {
             title: "Twin-Axis ORVMs", content: "Twin-axis ORVMs provide clear view for enhanced safety.",
@@ -326,16 +322,19 @@ export const subFeatureTabsData = {
             highlightMesh: () => {
                 addHighlights("Drum_Brake_Front_primitive0", false)
             },
+            animations: effortlessBrakingAnimation
         },
         {
             title: "Max Stability", content: "And superior wheelbase that resists front lifting.",
             camera: {
                 alpha: 1.4597, beta: 1.5923, radius: 40.9816, x: -0.010, y: 8.711, z: -0.026
             },
+            showMesh: ["Max_Stability_Arrow"],
             highlightMesh: () => {
                 updateStaticText("", "Superior wheelbase", 12, "column");
                 showStaticText();
             },
+            animations: maxStabilityAnimation
         }
     ],
     [FeatureCategory.Technology]: [
@@ -354,10 +353,16 @@ export const subFeatureTabsData = {
         {
             title: "Park with ease", content: "Concealed Parking Lever. Clean & clutter-free cabin.",
             camera: {
-                alpha: 1.5538, beta: 1.5827, radius: 26.0183, x: 6.187, y: 8.283, z: -1.081
+                alpha: 2.2191, beta: 1.5383, radius: 18.4993, x: 7.379, y: 5.712, z: -0.644
             },
             resetToDefaultPositionFirst: true,
-            highlightMesh: () => addHighlights("Engine_low", true),
+            highlightMesh: () => {
+
+                // hideMeshes(["Door_L_primitive0", "Door_L_primitive1", "Door_L_primitive2", "Door_L_primitive3",
+                //     "Door_L_primitive4", "Door_L_primitive5", "Door_L_primitive6", "Graphics_Left_Door", "Window_L"]);
+
+            },
+            animations: parkingBrakeAnimation
         },
         {
             title: "Wipe it off", content: "Zero-position wiper offer smooth operation for clear view.",
@@ -420,57 +425,31 @@ export const subFeatureTabsData = {
             camera: {
                 alpha: -3.9129, beta: 1.3301, radius: 23.5389, x: -2.737, y: 2.448, z: -2.289
             },
-            resetToDefaultPositionFirst: true,
-            showMesh: ["E_Charge_1", "E_Charge_2", "E_Charge_3", "E_Charge_4", "Regen_Brake"],
+
+            // resetToDefaultPositionFirst: true,
+            // showMesh: [],
             animations: [
-                {
-                    name: "E_Charge_1_Action",
-                    sequence: 0,
-                    speed: 1,
-                    loop: true,
-                    startFrame: 0,
-                    endFrame: null,
-                    reverse: false
-                },
-                {
-                    name: "E_Charge_2_Action",
-                    sequence: 0,
-                    speed: 1,
-                    loop: true,
-                    startFrame: 0,
-                    endFrame: null,
-                    reverse: false
-                },
-                {
-                    name: "E_Charge_3_Action",
-                    sequence: 0,
-                    speed: 1,
-                    loop: true,
-                    startFrame: 0,
-                    endFrame: null,
-                    reverse: false
-                },
-                {
-                    name: "E_Charge_4_Action",
-                    sequence: 0,
-                    speed: 1,
-                    loop: true,
-                    startFrame: 0,
-                    endFrame: null,
-                    reverse: false
-                },
             ],
-            highlightMesh: () => addHighlights("Regen_Brake", false),
+            highlightMesh: () => {
+                addHighlights("Drive_Shaft");
+                applyOutlineToMesh("Drive_Shaft", true, 0.1)
+
+            },
         }
     ],
     [FeatureCategory.Convenience]: [
         {
-            title: "Power Gear", content: "Industry-first With 3 Drive Modes for superior gradeability & range.",
+            title: "Power Gear", content: "Industry-first Power Gear with 3 Drive Modes for superior gradeability & range.",
             camera: {
                 alpha: -3.0688, beta: 1.4638, radius: 5.5, x: 8.483, y: 8.806, z: -0.071
             },
             resetToDefaultPositionFirst: true,
-            highlightMesh: () => addHighlights("Charger_Box_primitive0", false),
+            highlightMesh: () => {
+                addHighlights("Power_Gear_N603_primitive1", false)
+                addHighlights("Power_Gear_N603_primitive0", false)
+                addHighlights("Drive_Modes_primitive0", false)
+                addHighlights("Drive_Modes_primitive1", false)
+            },
             hideMesh: ["Softop_Curtain_primitive0", "Softop_Curtain_primitive1"],
             // minZ: 6
         },
@@ -479,20 +458,11 @@ export const subFeatureTabsData = {
             camera: {
                 alpha: -0.0063, beta: 0.8711, radius: 27.2686, x: 4.208, y: 2.060, z: -1.428
             },
-            resetToDefaultPositionFirst: true,
-            animationsToPlay: ["Rotation_USB_Port_Action"],
-            animations: [
-                {
-                    name: "Rotation_USB_Port_Action",
-                    sequence: 0,
-                    speed: 1,
-                    loop: false,
-                    startFrame: 0,
-                    endFrame: null,
-                    reverse: false,
-                    onComplete: () => addHighlights("USB_Charging_Port", false)
-                },
-            ]
+            // showMesh: ["Turning_Path"],
+            highlightMesh: () => {
+                // animateMaterialTextureUOffset("Turning_Path", -0.01)
+            },
+            animations: turnWithEaseAnimation
         },
         {
             title: "USB Charging Port", content: "USB charging port always keeps you connected.",
@@ -500,21 +470,26 @@ export const subFeatureTabsData = {
                 alpha: 3.6019, beta: 1.1940, radius: 1.2, x: 8.528, y: 8.047, z: -1.306
             },
             // resetToDefaultPositionFirst: true,
-            highlightMesh: () => highlightMeshUsingOverlayAndAlpha("Tumble_Seat", ["SoftTop_Cloth"]),
+            highlightMesh: () => {
+                // highlightMeshUsingOverlayAndAlpha("Tumble_Seat", ["SoftTop_Cloth"])
+            },
             // hideMesh: ["Soft_Top"],
             zoomInSmoothDuration: 2000,
             zoomInSpeed: 0.5,
             animationsToPlay: ["Rotation_Tumble_Seat_Action"],
             animations: [
                 {
-                    name: "Rotation_Tumble_Seat_Action",
+                    name: "USB_Charging_Port_Action",
                     sequence: 0,
                     speed: 1,
                     loop: false,
                     startFrame: 0,
                     endFrame: null,
                     reverse: false,
-                    // onComplete: () => {addHighlights("Tumble_Seat", false)}
+                    onComplete: () => {
+                        addHighlights("USB_Port_primitive0", false);
+                        applyOutlineToMesh("USB_Port_primitive0", false, 0.05)
+                    }
                 },
             ]
 
@@ -530,27 +505,30 @@ export const subFeatureTabsData = {
         {
             title: "Easy Access", content: "Easy ingress & egress for quick access & smooth operation.",
             camera: {
-                alpha: 1.4900, beta: 1.5240, radius: 30.9820, x: 3.941, y: 7.770, z: -0.428
+                alpha: 1.6848, beta: 1.5126, radius: 32.2127, x: 3.941, y: 7.770, z: -0.428
             },
             resetToDefaultPositionFirst: true,
-            animations: [
-
-            ]
+            highlightMesh: () => {
+                // hideMeshes(["Door_L_primitive0", "Door_L_primitive1", "Door_L_primitive2", "Door_L_primitive3",
+                //     "Door_L_primitive4", "Door_L_primitive5", "Door_L_primitive6", "Graphics_Left_Door", "Window_L"])
+            },
+            animations: easyAccessAnimation
         },
     ],
     [FeatureCategory.HeavyDuty]: [
         {
             title: "Max Load Deck", content: "Highest Loading area in the segment (6.6 ft deck length).",
             camera: {
-                alpha: 0.8783, beta: 1.4020, radius: 35.9819, x: 0.000, y: 7.500, z: 0.000
+                alpha: 0.8813, beta: 1.2949, radius: 37.2009, x: -0.614, y: 9.566, z: -0.252
             },
             highlightMesh: () => {
                 updateStaticText("Max load deck", "6.6 Ft", 12, "column");
                 showStaticText();
-                addHighlights("Load_3",false)
+                applyOutlineToMesh("Load_3", false);
+                animateMaterialTextureUOffset("Orange", -0.02)
+                
             },
-            showMesh: ["Milestone", "Load_1", "Load_2", "Load_3", "Max_Load_Text","Max_Load_Text_2"],
-
+            showMesh: ["Milestone", "Load_1", "Load_2", "Load_4", "Max_Load_Text", "Max_Load_Text_2"],
             animations: [
 
             ]
@@ -560,6 +538,15 @@ export const subFeatureTabsData = {
             camera: {
                 alpha: 1.0326, beta: 1.1495, radius: 27.2871, x: -2.599, y: 7.485, z: 1.560
             },
+            showMesh: ["Load_1", "Load_2", "Load_3"],
+            highlightMesh: () => {
+                addHighlights("Leaf_Spring");
+                applyOutlineToMesh("Leaf_Spring")
+                addHighlights("Rear_Suspension_Setup_primitive0");
+                applyOutlineToMesh("Rear_Suspension_Setup_primitive0")
+                addHighlights("Rear_Suspension_Setup_primitive1");
+                applyOutlineToMesh("Rear_Suspension_Setup_primitive1")
+            },
             animations: [
 
             ]
@@ -568,6 +555,9 @@ export const subFeatureTabsData = {
             title: "Strong Body", content: "Reinforced body and chassis ensure lasting durability.",
             camera: {
                 alpha: 2.4200, beta: 1.3272, radius: 36.0000, x: -0.558, y: 7.070, z: -0.472
+            },
+            highlightMesh: () => {
+                highlightMeshUsingTransparencyMode("Chassis_Mat")
             },
             animations: [
 
@@ -579,14 +569,12 @@ export const subFeatureTabsData = {
                 alpha: 0.6870, beta: 1.2377, radius: 27.2885, x: 3.047, y: 3.990, z: -2.432
             },
             highlightMesh: () => {
-                addHighlights("Tyre_R_primitive2");
-                addHighlights("Tyre_R_primitive0");
-                addHighlights("Tyre_F_primitive0");
-                addHighlights("Tyre_F_primitive2");
+                addHighlights("Tyre_R_primitive2", false);
+                addHighlights("Tyre_R_primitive0", false);
+                addHighlights("Tyre_F_primitive0", false);
+                addHighlights("Tyre_F_primitive2", false);
             },
-            animations: [
-
-            ]
+            animations: coverMoreBrakingAnimation
         },
     ],
     AutoPlayTimes: {

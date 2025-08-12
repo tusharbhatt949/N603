@@ -171,7 +171,8 @@ export const initialLoadCamera = async (
   });
   setCameraToDeafultPosition();
   // camera.position.x -= 10; // Shift scene to the right by moving camera left
-  createCopyCameraButton(camera)
+  if(IS_DEV_ENV)
+  {createCopyCameraButton(camera)}
 
 };
 
@@ -316,7 +317,7 @@ export const disableCameraControlsTemporarily = async (durationMs: number): Prom
 let rotationObserver: Observer<Scene> | null = null;
 
 export function startRotateCamera360(
-  speed: number = 0.005 // default speed
+  speed: number = 0.007 // default speed
 ) {
   const scene = camera.getScene();
 

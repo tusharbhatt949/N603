@@ -3,8 +3,8 @@ import { FeatureCategory } from "./enums";
 
 export const ASSETS = {
     MESHES: {
-        vehicleEnvironment: "assets/meshes/ENVIRONMENT/EV_MAX_Environment.gltf",
-        vehicle: "assets/meshes/VEHICLE/TVS_N603.gltf"
+        vehicleEnvironment: "assets/meshes/ENVIRONMENT/Kargo_EV_ENV.gltf",
+        vehicle: "assets/meshes/VEHICLE/N603.gltf"
     },
     ENV: {
         envfile: "assets/envfile/environment.env"
@@ -95,6 +95,13 @@ export const ASSETS = {
     OTHERS : {
         rotateScreen : "assets/other/rotateScreen.gif",
         ao : "assets/meshes/ao.png",
+        emissiveTexture : "assets/meshes/Bezel_Emission_Cyan.png",
+        chargingTexture : "assets/meshes/Charging_Status.png",
+
+        whiteColorTexture : "assets/meshes/VEHICLE/Stickers_White.webp",
+        blueColorTexture : "assets/meshes/VEHICLE/Stickers_Blue.webp",
+
+
         particleSystemLeft : "assets/meshes/particleSystem_left.json",
         particleSystemRight : "assets/meshes/particleSystem_right.json",
         waterShader : "assets/meshes/Water_Shader.json",
