@@ -1,4 +1,4 @@
-export const IS_DEV_ENV = false;
+export const IS_DEV_ENV = true;
 export const DEFAULT_TRANSPARENT_ALPHA_VALUE = 1;
 export const DEFAULT_ENVIRONMENT_INTESITY = 1;
 export const ANIMATIONS = [];

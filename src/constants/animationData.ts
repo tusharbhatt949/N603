@@ -1,4 +1,4 @@
-import { addHighlights, applyOutlineToMesh } from "../utils/highlights"
+import { addHighlights, applyOutlineToMesh, highlightMeshUsingOverlayAndAlpha } from "../utils/highlights"
 import { makeMeshVisible } from "../utils/utils"
 
 export const doorOpenAnimation = [
@@ -43,7 +43,7 @@ export const turnWithEaseAnimation = [
         startFrame: 0,
         endFrame: null,
         reverse: false,
-        onComplete:()=> {
+        onComplete: () => {
             makeMeshVisible("Turning_Path")
         }
     },
@@ -77,7 +77,7 @@ export const highGroundClearingEaseAnimation = [
     //     endFrame: null,
     //     reverse: false
     // },
-    
+
 ]
 
 export const GradeabilityAnimation = [
@@ -176,6 +176,22 @@ export const rollingWindowsAnimation = [
         startFrame: 0,
         endFrame: null,
         reverse: false
+    },
+]
+
+export const rollingWindowsAnimationForRoofTrim = [
+    {
+        name: "Window_Left_Action",
+        sequence: 0,
+        speed: 0.8,
+        loop: false,
+        startFrame: 0,
+        endFrame: null,
+        reverse: false,
+        onComplete: () => {
+            highlightMeshUsingOverlayAndAlpha("Roof_Trim_P");
+            applyOutlineToMesh("Roof_Trim_P", false, 900);
+        }
     },
 ]
 

@@ -5,7 +5,7 @@ import { blinkAnimation, makeSceneDarkAnimation, prepareAndPlayAnimations, shine
 import { startRotateCamera360 } from "../utils/cameraRotation";
 import { addHighlights, applyOutlineToMesh, highlightMeshUsingOverlayAndAlpha, highlightMeshUsingTransparencyMode } from "../utils/highlights";
 import { animateMaterialTextureUOffset, hideMeshes, makeMeshVisible, setRenderingGroupId, sleep } from "../utils/utils";
-import { coverMoreBrakingAnimation, easyAccessAnimation, effortlessBrakingAnimation, futuristicTechAnimation, gloveBoxAnimation, GradeabilityAnimation, highGroundClearingEaseAnimation, maxStabilityAnimation, orvmAnimation, parkingBrakeAnimation, rollingWindowsAnimation, turnWithEaseAnimation, WaterWadingAnimation, wheelAnimation, wiperAnimation } from "./animationData";
+import { coverMoreBrakingAnimation, easyAccessAnimation, effortlessBrakingAnimation, futuristicTechAnimation, gloveBoxAnimation, GradeabilityAnimation, highGroundClearingEaseAnimation, maxStabilityAnimation, orvmAnimation, parkingBrakeAnimation, rollingWindowsAnimation, rollingWindowsAnimationForRoofTrim, turnWithEaseAnimation, WaterWadingAnimation, wheelAnimation, wiperAnimation } from "./animationData";
 import { FeatureCategory } from "./enums";
 import { CAMERA_DEFAULT_TARGET_POSITION_X, CAMERA_DEFAULT_TARGET_POSITION_Y, CAMERA_DEFAULT_TARGET_POSITION_Z, CAMERA_DEFAULT_ALPHA_VALUE, CAMERA_DEFAULT_BETA_VALUE, CAMERA_DEFAULT_DESKTOP_RADIUS_VALUE, HIGHLIGHT_COLOR } from "./values";
 
@@ -25,27 +25,7 @@ export const subFeatureTabsData = {
                 applyOutlineToMesh("Pickup_Line")
                 animateMaterialTextureUOffset("Max_Speed_Mat", -0.02)
             },
-            isRoadAnim: true,
-            animations: [
-                {
-                    name: "Rotation_Rear_Tyre_Action",
-                    sequence: 0,
-                    speed: 2,
-                    loop: true,
-                    startFrame: 0,
-                    endFrame: null,
-                    reverse: false
-                },
-                {
-                    name: "Rotation_Front_Tyre_Action",
-                    sequence: 0,
-                    speed: 2,
-                    loop: true,
-                    startFrame: 0,
-                    endFrame: null,
-                    reverse: false
-                },
-            ],
+            animations: wheelAnimation
         },
         {
             title: "Max speed", content: "Top speed of 60 km/h ensure faster deliveries, more profit.",
@@ -56,11 +36,9 @@ export const subFeatureTabsData = {
             highlightMesh: () => {
                 updateStaticText("Max Speed", "60 Km/h", 12, "column", true);
                 showStaticText();
-                animateMaterialTextureUOffset("Aerodynamics", -0.02)
+                animateMaterialTextureUOffset("Aerodynamics", -0.04)
             },
-            animations: [
-
-            ]
+            animations: wheelAnimation
         },
         {
             title: "Always be ready", content: "Fastest Charging Time 0-100% in just 3 hours 10 minutes.",
@@ -194,12 +172,10 @@ export const subFeatureTabsData = {
             },
             highlightMesh: () => {
                 // addHighlights("Roof_Trim_Provision", false);
-                highlightMeshUsingOverlayAndAlpha("Roof_Trim_P");
-                applyOutlineToMesh("Roof_Trim_P", false, 900);
-                hideMeshes(["Window_L"])
+
+                // hideMeshes(["Window_L"])
             },
-            animations: [
-            ]
+            animations: rollingWindowsAnimationForRoofTrim
         },
         {
             title: "Bump-Free Drive", content: "Dual-rate suspension ensure smooth rides on rough terrain.",
@@ -221,12 +197,12 @@ export const subFeatureTabsData = {
 
             highlightMesh: () => {
                 hideMeshes(["Large_Windshield  "])
-                addHighlights("Seat_primitive0", true);
-                addHighlights("Seat_Backrest_primitive0", true);
-                addHighlights("Seat_Wireframe", true);
+                // addHighlights("Seat_primitive0", true);
+                // addHighlights("Seat_Backrest_primitive0", true);
+                // addHighlights("Seat_Wireframe", true);
 
-                applyOutlineToMesh("Seat_primitive0", true)
-                applyOutlineToMesh("Seat_Backrest_primitive0", true)
+                // applyOutlineToMesh("Seat_primitive0", true)
+                // applyOutlineToMesh("Seat_Backrest_primitive0", true)
             },
             animations: [
 
@@ -264,7 +240,7 @@ export const subFeatureTabsData = {
             camera: {
                 alpha: 9.4427, beta: 1.1979, radius: 4.7515, x: 6.213, y: 9.909, z: -0.681, fov: 1.2135
             },
-            highlightMesh: () => addHighlights("Front_Fender", false),
+            // highlightMesh: () => addHighlights("Front_Fender", false),
         },
         {
             title: "Elegant Dashboard", content: "Piano black bezel design for a premium in-cabin experience.",

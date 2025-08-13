@@ -298,11 +298,11 @@ export const changeVehicleColor = (color: VehicleColors) => {
     if (!BodyMaterial && !BodyMaterial1) return;
 
 
-    // if(color === VehicleColors.NeptuneBlue) {
-    //     applyTextureToMaterial("Stickers", ASSETS.OTHERS.blueColorTexture);
-    // } else if(color === VehicleColors.PristineWhite) {
-    //     applyTextureToMaterial("Stickers", ASSETS.OTHERS.whiteColorTexture);
-    // }
+    if(color === VehicleColors.NeptuneBlue) {
+        applyTextureToMaterial("Stickers", ASSETS.OTHERS.blueColorTexture);
+    } else if(color === VehicleColors.PristineWhite) {
+        applyTextureToMaterial("Stickers", ASSETS.OTHERS.whiteColorTexture);
+    }
  
     // Define start and end colors
     let startColor = (BodyMaterial || BodyMaterial1).albedoColor.clone(); // Use whichever exists
@@ -961,9 +961,21 @@ export function applyTextureToMaterial(
 
     const tex = new BABYLON.Texture(texturePath, scene);
 
+    // Rotate texture 180 degrees (in radians)
+    tex.uAng = Math.PI; // 180° rotation
+
     // Assign to specified slot if exists
     if ((mat as any)[textureSlot] !== undefined) {
         (mat as any)[textureSlot] = tex;
+
+        // If this is an albedo texture, enable alpha support
+        if (textureSlot === "albedoTexture") {
+            tex.hasAlpha = true; // tell Babylon the texture contains alpha
+
+            if ("useAlphaFromAlbedoTexture" in mat) {
+                (mat as any).useAlphaFromAlbedoTexture = true;
+            }
+        }
     } else {
         console.warn(`Texture slot '${textureSlot}' not found on material '${materialName}'.`);
     }
