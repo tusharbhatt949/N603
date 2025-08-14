@@ -140,6 +140,7 @@ const loadMesh = (scene: BABYLON.Scene, shadowGenerator: BABYLON.ShadowGenerator
       setEmissiveTextureFromPath("Max_Speed_Mat")
       setEmissiveTextureFromPath("Plastic_Black_Glossy")
       setEmissiveTextureFromPath("Orange")
+      setEmissiveTextureFromPath("Seat_Wireframe_Mat", ASSETS.OTHERS.emissiveTextureSeat)
       if (floor) floor.receiveShadows = true;
 
       updateProgress(); // Update loading screen progress

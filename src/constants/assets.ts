@@ -96,6 +96,7 @@ export const ASSETS = {
         rotateScreen : "assets/other/rotateScreen.gif",
         ao : "assets/meshes/ao.png",
         emissiveTexture : "assets/meshes/Bezel_Emission_Cyan.png",
+        emissiveTextureSeat : "assets/meshes/Bezel_Emission.png",
         chargingTexture : "assets/meshes/Charging_Status.png",
 
         whiteColorTexture : "assets/meshes/VEHICLE/Stickers_White.webp",

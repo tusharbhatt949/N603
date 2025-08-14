@@ -3,6 +3,7 @@ import { startIncrementingText } from "../uiElements/infographics/rangeText";
 import { showStaticText, updateStaticText } from "../uiElements/infographics/staticText";
 import { blinkAnimation, makeSceneDarkAnimation, prepareAndPlayAnimations, shineAnimation, slowAndStopAnimation, startSpeedLines, stopSpeedLines } from "../utils/animations";
 import { startRotateCamera360 } from "../utils/cameraRotation";
+import { setMeshRenderingGroupId } from "../utils/helper/groupRenderingId";
 import { addHighlights, applyOutlineToMesh, highlightMeshUsingOverlayAndAlpha, highlightMeshUsingTransparencyMode } from "../utils/highlights";
 import { animateMaterialTextureUOffset, hideMeshes, makeMeshVisible, setRenderingGroupId, sleep } from "../utils/utils";
 import { coverMoreBrakingAnimation, easyAccessAnimation, effortlessBrakingAnimation, futuristicTechAnimation, gloveBoxAnimation, GradeabilityAnimation, highGroundClearingEaseAnimation, maxStabilityAnimation, orvmAnimation, parkingBrakeAnimation, rollingWindowsAnimation, rollingWindowsAnimationForRoofTrim, turnWithEaseAnimation, WaterWadingAnimation, wheelAnimation, wiperAnimation } from "./animationData";
@@ -102,7 +103,7 @@ export const subFeatureTabsData = {
             ]
         },
         {
-            title: "Carry More", content: "192 Cubic Feet of Volumetric Capacity. Carry more per trip.",
+            title: "Carry More", content: "192 Cubic Feet of Volumetric Capacity (Exterior). Carry more per trip.",
             camera: {
                 alpha: 0.7058, beta: 1.2776, radius: 49.7506, x: 0.198, y: 10.214, z: -1.562
             },
@@ -196,7 +197,14 @@ export const subFeatureTabsData = {
             showMesh: ["Seat_Wireframe"],
 
             highlightMesh: () => {
-                hideMeshes(["Large_Windshield  "])
+                hideMeshes(["Large_Windshield  "]);
+                setMeshRenderingGroupId("Seat_primitive0");
+                setMeshRenderingGroupId("Seat_Backrest_primitive0");
+                setMeshRenderingGroupId("Seat_Wireframe", 2);
+
+                animateMaterialTextureUOffset("Seat_Wireframe_Mat", -0.02, undefined, "albedoTexture")
+                animateMaterialTextureUOffset("Seat_Wireframe_Mat", -0.02, undefined, "emissiveTexture")
+
                 // addHighlights("Seat_primitive0", true);
                 // addHighlights("Seat_Backrest_primitive0", true);
                 // addHighlights("Seat_Wireframe", true);
@@ -262,6 +270,7 @@ export const subFeatureTabsData = {
             highlightMesh: () => {
                 blinkAnimation("Indicator_Glow", 1000);
                 makeSceneDarkAnimation()
+                animateMaterialTextureUOffset("Headlight_Emission",-0.02, undefined, "emissiveTexture")
             },
             showMesh: ["Headlight_Emission", "Headlight_Beam", "Backlight_Emisson"]
         },

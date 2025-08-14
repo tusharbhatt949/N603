@@ -194,7 +194,9 @@ export const resetSceneState = () => {
     disableVignette();
     stopRotateCamera360();
     resetOutlineHighlight();
-    stopAllTextureAnimations()
+    stopAllTextureAnimations();
+    resetModifiedMeshesRenderingGroupId();
+
     camera.attachControl(canvas, true);
 
     if (INSIDE_CABIN_VIEW)
@@ -827,6 +829,7 @@ export async function applyNodeMaterialToMesh(meshName: string, materialPath: st
 
 
 import * as BABYLON from "babylonjs";
+import { resetModifiedMeshesRenderingGroupId } from "./helper/groupRenderingId";
 
 interface TextureAnimationEntry {
     observer: BABYLON.Observer<BABYLON.Scene>;
